@@ -1,0 +1,5 @@
+{{- $href := .href -}}
+{{- $label := .label -}}
+{{- $variant := .variant | default "primary" -}}
+{{- $attrs := .attrs | default "" -}}
+<a class="perfcheck-button perfcheck-button--{{ $variant }}" href="{{ $href }}" {{ $attrs | safeHTMLAttr }}>{{ $label }}</a>

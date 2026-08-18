@@ -1,0 +1,8 @@
+{{- $title := .title -}}
+{{- $body := .body -}}
+{{- $featured := .featured | default false -}}
+<article class="perfcheck-card{{ if $featured }} perfcheck-card--featured{{ end }}">
+  {{ with $title }}<h3 class="perfcheck-card__title">{{ . }}</h3>{{ end }}
+  {{ with $body }}<p class="perfcheck-card__body">{{ . }}</p>{{ end }}
+  {{ with .meta }}<p class="perfcheck-card__meta">{{ . }}</p>{{ end }}
+</article>

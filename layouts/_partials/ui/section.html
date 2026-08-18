@@ -1,0 +1,12 @@
+{{- /* section wrapper — use for consistent vertical rhythm */ -}}
+<section class="perfcheck-section"{{ with .labelledby }} aria-labelledby="{{ . }}"{{ end }}>
+  <div class="perfcheck-container">
+    {{ with .title }}
+      <h2{{ with $.id }} id="{{ . }}"{{ end }} class="perfcheck-section__title">{{ . }}</h2>
+    {{ end }}
+    {{ with .lead }}
+      <p class="perfcheck-section__lead">{{ . }}</p>
+    {{ end }}
+    {{ .inner | safeHTML }}
+  </div>
+</section>
