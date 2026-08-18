@@ -1,0 +1,17 @@
+{{- $component := .component -}}
+{{- $fallback := .fallback -}}
+<div
+  class="perfcheck-island"
+  data-react-island
+  data-component="{{ $component }}"
+>
+  <noscript>
+    <div class="perfcheck-alert perfcheck-alert--info" role="status">
+      <p class="perfcheck-alert__title">JavaScript required</p>
+      <p class="perfcheck-alert__body">This interactive tool needs JavaScript. The rest of the site works without it.</p>
+    </div>
+  </noscript>
+  <div class="perfcheck-island__fallback" data-island-fallback>
+    {{ with $fallback }}{{ . }}{{ end }}
+  </div>
+</div>

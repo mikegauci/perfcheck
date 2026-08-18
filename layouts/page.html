@@ -1,8 +1,14 @@
 {{ define "main" }}
   <article class="perfcheck-section">
-    <div class="perfcheck-container perfcheck-prose">
-      <h1>{{ .Title }}</h1>
-      {{ .Content }}
+    <div class="perfcheck-container">
+      <div class="perfcheck-prose">
+        <h1>{{ .Title }}</h1>
+        {{ if .Params.island }}
+          {{ partial "react-island.html" (dict "component" .Params.island "fallback" .Content) }}
+        {{ else }}
+          {{ .Content }}
+        {{ end }}
+      </div>
     </div>
   </article>
 {{ end }}
