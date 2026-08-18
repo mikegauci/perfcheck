@@ -4,6 +4,7 @@ import { createClient } from './api/client';
 import { AuditForm } from './components/AuditForm';
 import { Compare } from './components/Compare';
 import { Dashboard } from './components/Dashboard';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { ResultView } from './components/ResultView';
 
 const client = createClient({ baseUrl: params.apiBaseUrl ?? '' });
@@ -19,20 +20,35 @@ function mountIslands() {
 
     const root = createRoot(node);
     if (component === 'audit-form') {
-      root.render(<AuditForm client={client} />);
+      root.render(
+        <ErrorBoundary>
+          <AuditForm client={client} />
+        </ErrorBoundary>,
+      );
       return;
     }
     if (component === 'dashboard') {
-      root.render(<Dashboard client={client} />);
+      root.render(
+        <ErrorBoundary>
+          <Dashboard client={client} />
+        </ErrorBoundary>,
+      );
       return;
     }
     if (component === 'result-view') {
-      root.render(<ResultView client={client} />);
+      root.render(
+        <ErrorBoundary>
+          <ResultView client={client} />
+        </ErrorBoundary>,
+      );
       return;
     }
     if (component === 'compare') {
-      root.render(<Compare client={client} />);
-      return;
+      root.render(
+        <ErrorBoundary>
+          <Compare client={client} />
+        </ErrorBoundary>,
+      );
     }
   });
 }

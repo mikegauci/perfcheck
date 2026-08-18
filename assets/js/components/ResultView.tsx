@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ApiClient } from '../api/client';
 import { ApiError } from '../api/types';
 import { Alert } from './Alert';
-import { EngineBadge } from './EngineBadge';
-import { RecommendationList } from './RecommendationList';
-import { ScoreCard } from './ScoreCard';
-import { SignalList } from './SignalList';
+import { AuditReport } from './AuditReport';
 
 type ResultViewProps = {
   client: ApiClient;
@@ -54,14 +51,5 @@ export function ResultView({ client }: ResultViewProps) {
     );
   }
 
-  return (
-    <div>
-      <p>
-        <EngineBadge engine={audit.engine} />
-      </p>
-      <ScoreCard scores={audit.scores} url={audit.url} />
-      <SignalList signals={audit.signals} />
-      <RecommendationList items={audit.recommendations} />
-    </div>
-  );
+  return <AuditReport audit={audit} />;
 }

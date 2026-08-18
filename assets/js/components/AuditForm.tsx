@@ -3,10 +3,7 @@ import type { ApiClient } from '../api/client';
 import { rememberUrl, readRecentUrls } from '../hooks/useRecentUrls';
 import { useAudit } from '../hooks/useAudit';
 import { Alert } from './Alert';
-import { EngineBadge } from './EngineBadge';
-import { RecommendationList } from './RecommendationList';
-import { ScoreCard } from './ScoreCard';
-import { SignalList } from './SignalList';
+import { AuditReport } from './AuditReport';
 
 type AuditFormProps = {
   client: ApiClient;
@@ -118,12 +115,7 @@ export function AuditForm({ client }: AuditFormProps) {
         ) : null}
         {state.status === 'success' ? (
           <>
-            <p>
-              <EngineBadge engine={state.audit.engine} />
-            </p>
-            <ScoreCard scores={state.audit.scores} url={state.audit.url} />
-            <SignalList signals={state.audit.signals} />
-            <RecommendationList items={state.audit.recommendations} />
+            <AuditReport audit={state.audit} />
             <p>
               <button
                 type="button"

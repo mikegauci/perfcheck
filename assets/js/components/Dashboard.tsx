@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ApiClient } from '../api/client';
 import { ApiError, type Audit } from '../api/types';
+import { useSession } from '../hooks/useSession';
 import { Alert } from './Alert';
 import { EngineBadge } from './EngineBadge';
 import { LoginForm } from './LoginForm';
@@ -24,11 +25,14 @@ export function Dashboard({ client }: DashboardProps) {
   const [query, setQuery] = useState('');
   const [visible, setVisible] = useState(10);
   const [reload, setReload] = useState(0);
+  const { authRequired, authenticated, refresh, signOut } = useSession(client);
+  const canSignOut = authRequired && authenticated;
 
   const load = useCallback(async () => {
     setState({ status: 'loading' });
     try {
       const res = await client.listAudits(50);
+      await refresh().catch(() => undefined);
       if (res.items.length === 0) {
         setState({ status: 'empty' });
       } else {
@@ -42,11 +46,16 @@ export function Dashboard({ client }: DashboardProps) {
       const message = err instanceof ApiError ? err.message : 'Could not load audits.';
       setState({ status: 'error', message });
     }
-  }, [client]);
+  }, [client, refresh]);
 
   useEffect(() => {
     void load();
   }, [load, reload]);
+
+  async function onSignOut() {
+    await signOut();
+    setReload((n) => n + 1);
+  }
 
   const filtered = useMemo(() => {
     if (state.status !== 'ready') return [];
@@ -106,9 +115,22 @@ export function Dashboard({ client }: DashboardProps) {
 
   if (state.status === 'empty') {
     return (
-      <Alert title="No audits yet" variant="info">
-        Run an audit on the <a href="/audit/">audit page</a> to populate this list.
-      </Alert>
+      <div className="perfcheck-dashboard">
+        {canSignOut ? (
+          <div className="perfcheck-dashboard__toolbar">
+            <button
+              type="button"
+              className="perfcheck-button perfcheck-button--ghost"
+              onClick={() => void onSignOut()}
+            >
+              Sign out
+            </button>
+          </div>
+        ) : null}
+        <Alert title="No audits yet" variant="info">
+          Run an audit on the <a href="/audit/">audit page</a> to populate this list.
+        </Alert>
+      </div>
     );
   }
 
@@ -143,6 +165,15 @@ export function Dashboard({ client }: DashboardProps) {
             <option value="score-asc">Lowest score</option>
           </select>
         </div>
+        {canSignOut ? (
+          <button
+            type="button"
+            className="perfcheck-button perfcheck-button--ghost"
+            onClick={() => void onSignOut()}
+          >
+            Sign out
+          </button>
+        ) : null}
       </div>
 
       {filtered.length === 0 ? (

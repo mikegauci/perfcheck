@@ -2,13 +2,20 @@ import { useCallback, useState } from 'react';
 import type { ApiClient } from '../api/client';
 
 export function useSession(client: ApiClient) {
-  const [authed, setAuthed] = useState(false);
+  const [authRequired, setAuthRequired] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  const markAuthed = useCallback(() => setAuthed(true), []);
-  const signOut = useCallback(async () => {
-    await client.logout();
-    setAuthed(false);
+  const refresh = useCallback(async () => {
+    const status = await client.session();
+    setAuthRequired(status.authRequired);
+    setAuthenticated(status.authenticated);
+    return status;
   }, [client]);
 
-  return { authed, markAuthed, signOut };
+  const signOut = useCallback(async () => {
+    await client.logout();
+    await refresh();
+  }, [client, refresh]);
+
+  return { authRequired, authenticated, refresh, signOut };
 }
