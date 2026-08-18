@@ -1,26 +1,41 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"log"
 	"net/http"
-	"os"
+	"time"
+
+	"github.com/mikegauci/perfcheck/api/internal/audit"
+	"github.com/mikegauci/perfcheck/api/internal/httpapi"
+	"github.com/mikegauci/perfcheck/api/internal/storage"
 )
 
 func main() {
-	addr := ":8080"
-	if v := os.Getenv("PERFCHECK_ADDR"); v != "" {
-		addr = v
-	}
+	addr := flag.String("addr", ":8080", "HTTP listen address")
+	corsOrigin := flag.String("cors-origin", "http://localhost:1313", "Allowed CORS origin (empty disables CORS)")
+	staticDir := flag.String("static", "", "Optional directory of Hugo public/ files to serve")
+	flag.Parse()
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/v1/healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprint(w, `{"status":"ok"}`)
+	repo := storage.NewMemory(100)
+	svc := audit.NewService(repo)
+	handler := httpapi.NewRouter(httpapi.Options{
+		Service:    svc,
+		CORSOrigin: *corsOrigin,
+		StaticDir:  *staticDir,
 	})
 
-	log.Printf("perfcheckd listening on %s", addr)
-	if err := http.ListenAndServe(addr, mux); err != nil {
+	server := &http.Server{
+		Addr:              *addr,
+		Handler:           handler,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
+
+	log.Printf("perfcheckd listening on %s (cors=%q static=%q)", *addr, *corsOrigin, *staticDir)
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 }
