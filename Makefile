@@ -10,7 +10,7 @@ help:
 	@echo "  make test-frontend  - run Vitest"
 	@echo "  make typecheck      - TypeScript check"
 	@echo "  make build          - build Hugo site and Go binary"
-	@echo "  make lint           - go vet + typecheck"
+	@echo "  make lint           - go vet, typecheck, ESLint, Stylelint"
 	@echo "  make clean          - remove build artefacts"
 
 dev:
@@ -43,6 +43,8 @@ build:
 lint:
 	cd api && go vet ./...
 	npm run typecheck
+	npm run lint
+	npm run lint:css
 
 clean:
 	rm -rf public resources/_gen api/bin coverage
