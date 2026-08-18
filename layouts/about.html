@@ -1,0 +1,158 @@
+{{ define "main" }}
+  <article>
+    <header class="perfcheck-hero">
+      <div class="perfcheck-container perfcheck-hero__inner">
+        <div class="perfcheck-hero__copy">
+          <p class="perfcheck-hero__kicker">Brief</p>
+          <h1 class="perfcheck-hero__title">{{ .Title }}</h1>
+          <p class="perfcheck-hero__lead">
+            A portfolio project to show I can pick up Hugo and Go quickly, while applying the frontend practices I already use: responsive layout, TypeScript, SASS with BEM, accessibility, SEO, testing, and a maintainable architecture.
+          </p>
+        </div>
+        <aside class="perfcheck-specimen" aria-hidden="true">
+          <p class="perfcheck-specimen__kicker">Ownership</p>
+          <ol class="perfcheck-method__stack">
+            <li>
+              {{ partial "icon.html" "document" }}
+              <span>Hugo owns the document</span>
+            </li>
+            <li>
+              {{ partial "icon.html" "island" }}
+              <span>React owns the islands</span>
+            </li>
+            <li>
+              {{ partial "icon.html" "api" }}
+              <span>Go owns the data</span>
+            </li>
+          </ol>
+        </aside>
+      </div>
+    </header>
+
+    <section class="perfcheck-section" aria-labelledby="goals-heading">
+      <div class="perfcheck-container">
+        <h2 id="goals-heading" class="perfcheck-section__title">Design goals</h2>
+        <ol class="perfcheck-steps">
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">01</span>
+            {{ partial "icon.html" "tick" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Small enough to understand completely</h3>
+              <p class="perfcheck-steps__body">No framework soup. One Sass vocabulary, a few React islands, a tiny Go API. You can read the whole thing in an afternoon.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">02</span>
+            {{ partial "icon.html" "split" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Two surfaces, one system</h3>
+              <p class="perfcheck-steps__body">Customer-facing pages for marketing, plus a small internal dashboard. Same tokens and BEM classes on both.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">03</span>
+            {{ partial "icon.html" "island" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Separation of concerns</h3>
+              <p class="perfcheck-steps__body">Hugo owns documents, React owns interactive regions, Go owns data. Each layer has a job and a test suite.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">04</span>
+            {{ partial "icon.html" "git" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Git-friendly increments</h3>
+              <p class="perfcheck-steps__body">Conventional commits, phase branches, green <code>main</code> at every step. The history is part of the demonstration.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="stack-heading">
+      <div class="perfcheck-container">
+        <h2 id="stack-heading" class="perfcheck-section__title">The stack</h2>
+        <p class="perfcheck-section__lead">Three runtimes, one class vocabulary, no CSS framework and no HTTP framework. Then the tools that persist, prove and ship it.</p>
+        <div class="perfcheck-chain perfcheck-chain--trio">
+          <article class="perfcheck-chain__item">
+            {{ partial "icon.html" "document" }}
+            <h3 class="perfcheck-chain__title">Hugo Extended</h3>
+            <p class="perfcheck-chain__body">Documents, Dart Sass, and the esbuild island pipeline. Marketing pages ship with zero JavaScript.</p>
+          </article>
+          <article class="perfcheck-chain__item">
+            {{ partial "icon.html" "island" }}
+            <h3 class="perfcheck-chain__title">React + TypeScript</h3>
+            <p class="perfcheck-chain__body">Islands on audit, compare, result and dashboard. Vitest and Testing Library cover the interactive paths.</p>
+          </article>
+          <article class="perfcheck-chain__item">
+            {{ partial "icon.html" "api" }}
+            <h3 class="perfcheck-chain__title">Go <code>net/http</code></h3>
+            <p class="perfcheck-chain__body">Validate, fetch, score, recommend, persist. SQLite or memory behind a Repository. Optional dashboard password.</p>
+          </article>
+        </div>
+        <ol class="perfcheck-inventory">
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">Dart Sass + BEM</h3>
+            <p class="perfcheck-inventory__body">One class vocabulary shared by Hugo and React. Autoprefixer on the production CSS. No Tailwind.</p>
+          </li>
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">SQLite</h3>
+            <p class="perfcheck-inventory__body"><code>modernc.org/sqlite</code> so <code>CGO_ENABLED=0</code> still builds. An empty <code>-db</code> stays in memory for tests and demos.</p>
+          </li>
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">Vitest + Go test</h3>
+            <p class="perfcheck-inventory__body">Typecheck, coverage, <code>go vet</code> and the race detector. HTML fetch uses <code>httptest</code> fixtures — CI never needs the network.</p>
+          </li>
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">Docker</h3>
+            <p class="perfcheck-inventory__body">Multi-stage image: Hugo <code>public/</code> plus a distroless Go binary. One process serves the site and the API.</p>
+          </li>
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">Fly.io</h3>
+            <p class="perfcheck-inventory__body">London region, HTTPS, autostop machines. A volume at <code>/data</code> keeps SQLite across deploys.</p>
+          </li>
+          <li class="perfcheck-inventory__row">
+            <h3 class="perfcheck-inventory__name">GitHub Actions</h3>
+            <p class="perfcheck-inventory__body">Go, frontend and Hugo jobs on every push. Green on <code>main</code> deploys with <code>flyctl</code>.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="limits-heading">
+      <div class="perfcheck-container">
+        <h2 id="limits-heading" class="perfcheck-section__title">What it is not</h2>
+        <p class="perfcheck-section__lead">The limits are deliberate. This is a demonstration of architecture, not a production auditor.</p>
+        <ol class="perfcheck-spec">
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">01</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Not Lighthouse, not RUM</h3>
+              <p class="perfcheck-spec__body">Scores come from one live HTML GET and table-driven signals. No JS execution, no Core Web Vitals, no real-user monitoring.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">02</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Not a full crawl</h3>
+              <p class="perfcheck-spec__body">A single document, 10s timeout, 2&nbsp;MiB cap. Authenticated or heavily client-rendered pages will look incomplete.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">03</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Not a product backend</h3>
+              <p class="perfcheck-spec__body">The dashboard password is optional. History lives in memory or SQLite. Auth is an HMAC cookie, off by default for local demos.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="perfcheck-method__cta">
+          <a class="perfcheck-button perfcheck-button--primary" href="{{ "how-it-works/" | relURL }}">See how it works</a>
+          {{ with site.Params.social.github }}
+            <a class="perfcheck-button perfcheck-button--ghost" href="{{ . }}" rel="noopener noreferrer">GitHub</a>
+          {{ end }}
+        </p>
+      </div>
+    </section>
+  </article>
+{{ end }}

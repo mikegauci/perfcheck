@@ -32,9 +32,16 @@
       font-size: 0.8125rem;
       color: $color-ink;
     }
+
+    .perfcheck-icon {
+      margin-top: 0;
+    }
   }
 
   &__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
     margin: $space-6 0 0;
   }
 }
@@ -186,6 +193,12 @@
 
     @include up($bp-md) {
       display: block;
+    }
+  }
+
+  &--trio {
+    @include up($bp-md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 }

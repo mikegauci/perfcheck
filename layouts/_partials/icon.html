@@ -31,5 +31,17 @@
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
       <path d="M6 18V14M12 18V9M18 18V5"/>
     </svg>
+  {{- else if eq $name "split" -}}
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+      <rect x="3.5" y="4" width="7" height="16"/>
+      <rect x="13.5" y="4" width="7" height="16"/>
+    </svg>
+  {{- else if eq $name "git" -}}
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+      <circle cx="12" cy="5" r="1.75"/>
+      <circle cx="7" cy="19" r="1.75"/>
+      <circle cx="17" cy="19" r="1.75"/>
+      <path d="M12 7v4.5L7.5 17M12 11.5L16.5 17"/>
+    </svg>
   {{- end -}}
 </span>

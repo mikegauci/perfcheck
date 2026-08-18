@@ -1,4 +1,5 @@
 @use '../abstracts/tokens' as *;
+@use '../abstracts/breakpoints' as *;
 
 .perfcheck-spec {
   display: grid;
@@ -25,6 +26,38 @@
 
   &__title {
     margin-bottom: $space-2;
+  }
+
+  &__body {
+    margin: 0;
+  }
+}
+
+.perfcheck-inventory {
+  display: grid;
+  margin: $space-6 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid $color-border;
+
+  @include up($bp-md) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: $space-6;
+  }
+
+  &__row {
+    display: grid;
+    gap: $space-2;
+    padding-block: $space-4;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__name {
+    margin: 0;
+    font-family: $font-mono;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
 
   &__body {
