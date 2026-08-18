@@ -16,11 +16,18 @@ async function request<T>(
   const timeoutMs = options.timeoutMs ?? 10000;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
+  if (init.signal) {
+    if (init.signal.aborted) {
+      controller.abort();
+    } else {
+      init.signal.addEventListener('abort', () => controller.abort(), { once: true });
+    }
+  }
 
   try {
     const response = await fetchImpl(`${baseUrl}${path}`, {
       ...init,
-      signal: init.signal ?? controller.signal,
+      signal: controller.signal,
       credentials: 'include',
       headers: {
         Accept: 'application/json',
@@ -55,6 +62,9 @@ async function request<T>(
       throw err;
     }
     if (err instanceof DOMException && err.name === 'AbortError') {
+      if (init.signal?.aborted) {
+        throw new ApiError('aborted', 'Audit cancelled.', 0);
+      }
       throw new ApiError('timeout', 'The request timed out. Please try again.', 0);
     }
     throw new ApiError('network', 'Could not reach the API. Is the server running?', 0);
@@ -65,11 +75,11 @@ async function request<T>(
 
 export function createClient(options: ClientOptions = {}) {
   return {
-    createAudit(url: string) {
+    createAudit(url: string, init: { signal?: AbortSignal } = {}) {
       return request<Audit>(
         '/api/v1/audits',
-        { method: 'POST', body: JSON.stringify({ url }) },
-        options,
+        { method: 'POST', body: JSON.stringify({ url }), signal: init.signal },
+        { ...options, timeoutMs: options.timeoutMs ?? 75000 },
       );
     },
     listAudits(limit = 20) {

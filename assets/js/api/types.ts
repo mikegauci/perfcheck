@@ -61,6 +61,7 @@ export type ApiErrorCode =
   | 'internal'
   | 'network'
   | 'timeout'
+  | 'aborted'
   | 'unknown';
 
 export type ApiErrorBody = {
