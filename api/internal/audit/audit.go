@@ -19,11 +19,13 @@ type Recommendation struct {
 	Detail   string `json:"detail"`
 }
 
-// Audit is a completed mock audit result.
+// Audit is a completed audit result.
 type Audit struct {
 	ID              string           `json:"id"`
 	URL             string           `json:"url"`
 	CreatedAt       time.Time        `json:"createdAt"`
+	Engine          string           `json:"engine"`
 	Scores          Scores           `json:"scores"`
+	Signals         *Signals         `json:"signals,omitempty"`
 	Recommendations []Recommendation `json:"recommendations"`
 }

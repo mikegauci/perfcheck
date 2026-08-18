@@ -39,7 +39,7 @@ func (s *Server) handleCreateAudit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a, err := s.svc.Create(req.URL)
+	a, err := s.svc.Create(r.Context(), req.URL)
 	if err != nil {
 		s.mapCreateError(w, err)
 		return

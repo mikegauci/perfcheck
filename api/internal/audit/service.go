@@ -1,6 +1,7 @@
 package audit
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
@@ -11,22 +12,27 @@ import (
 
 // Service orchestrates validation, scoring, recommendations and persistence.
 type Service struct {
-	repo Repository
-	now  func() time.Time
-	idFn func() (string, error)
+	repo   Repository
+	scorer Scorer
+	now    func() time.Time
+	idFn   func() (string, error)
 }
 
-// NewService wires a Service with the given repository.
-func NewService(repo Repository) *Service {
+// NewService wires a Service with the given repository and scorer.
+func NewService(repo Repository, scorer Scorer) *Service {
+	if scorer == nil {
+		scorer = MockScorer{}
+	}
 	return &Service{
-		repo: repo,
-		now:  func() time.Time { return time.Now().UTC() },
-		idFn: newID,
+		repo:   repo,
+		scorer: scorer,
+		now:    func() time.Time { return time.Now().UTC() },
+		idFn:   newID,
 	}
 }
 
 // Create validates the URL, scores it, persists the audit and returns it.
-func (s *Service) Create(rawURL string) (Audit, error) {
+func (s *Service) Create(ctx context.Context, rawURL string) (Audit, error) {
 	normalised, err := validate.NormalizeURL(rawURL)
 	if err != nil {
 		return Audit{}, err
@@ -37,13 +43,19 @@ func (s *Service) Create(rawURL string) (Audit, error) {
 		return Audit{}, fmt.Errorf("generate id: %w", err)
 	}
 
-	scores := ScoreURL(normalised)
+	res, err := s.scorer.Score(ctx, normalised)
+	if err != nil {
+		return Audit{}, fmt.Errorf("score url: %w", err)
+	}
+
 	a := Audit{
 		ID:              id,
 		URL:             normalised,
 		CreatedAt:       s.now(),
-		Scores:          scores,
-		Recommendations: Recommend(scores),
+		Engine:          res.Engine,
+		Scores:          res.Scores,
+		Signals:         res.Signals,
+		Recommendations: Recommend(res),
 	}
 
 	if err := s.repo.Save(a); err != nil {

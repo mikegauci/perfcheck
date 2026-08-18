@@ -13,7 +13,7 @@ import (
 
 func testRouter() http.Handler {
 	repo := storage.NewMemory(50)
-	svc := audit.NewService(repo)
+	svc := audit.NewService(repo, audit.MockScorer{})
 	return NewRouter(Options{Service: svc, CORSOrigin: "http://localhost:1313"})
 }
 
@@ -44,7 +44,7 @@ func TestCreateAndGetAudit(t *testing.T) {
 	if err := json.Unmarshal(rr.Body.Bytes(), &created); err != nil {
 		t.Fatal(err)
 	}
-	if created.ID == "" || created.Scores.Overall == 0 {
+	if created.ID == "" || created.Scores.Overall == 0 || created.Engine != audit.EngineMock {
 		t.Fatalf("unexpected audit: %#v", created)
 	}
 

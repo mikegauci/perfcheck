@@ -18,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	repo := storage.NewMemory(100)
-	svc := audit.NewService(repo)
+	svc := audit.NewService(repo, audit.MockScorer{})
 	handler := httpapi.NewRouter(httpapi.Options{
 		Service:    svc,
 		CORSOrigin: *corsOrigin,

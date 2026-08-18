@@ -1,34 +1,50 @@
 package audit
 
-import (
-	"hash/fnv"
-	"math/rand"
+import "context"
+
+// Engine identifiers returned on every audit so the UI can label provenance.
+const (
+	EngineMock  = "mock"
+	EngineFetch = "fetch"
+	EnginePSI   = "psi"
 )
 
-// ScoreURL derives deterministic mock scores from a normalised URL.
-// This is intentionally synthetic — there is no real Lighthouse call.
-func ScoreURL(normalisedURL string) Scores {
-	h := fnv.New64a()
-	_, _ = h.Write([]byte(normalisedURL))
-	seed := h.Sum64()
-	r := rand.New(rand.NewSource(int64(seed))) //nolint:gosec // deterministic mock, not crypto
-
-	performance := band(r, 45, 98)
-	seo := band(r, 55, 99)
-	accessibility := band(r, 50, 97)
-	overall := (performance*40 + seo*30 + accessibility*30) / 100
-
-	return Scores{
-		Overall:       overall,
-		Performance:   performance,
-		SEO:           seo,
-		Accessibility: accessibility,
-	}
+// Scorer produces scores for a normalised URL.
+type Scorer interface {
+	Score(ctx context.Context, url string) (Result, error)
 }
 
-func band(r *rand.Rand, min, max int) int {
-	if max <= min {
-		return min
-	}
-	return min + r.Intn(max-min+1)
+// Result is the output of a scoring engine.
+type Result struct {
+	Scores  Scores
+	Engine  string
+	Signals *Signals
+}
+
+// Signals are optional evidence collected by live engines.
+// MockScorer leaves this nil.
+type Signals struct {
+	StatusCode         int    `json:"statusCode,omitempty"`
+	TTFBMs             int64  `json:"ttfbMs,omitempty"`
+	Bytes              int    `json:"bytes,omitempty"`
+	ContentEncoding    string `json:"contentEncoding,omitempty"`
+	CacheControl       string `json:"cacheControl,omitempty"`
+	HTTPS              bool   `json:"https"`
+	Title              string `json:"title,omitempty"`
+	TitleLength        int    `json:"titleLength,omitempty"`
+	HasTitle           bool   `json:"hasTitle"`
+	MetaDescription    string `json:"metaDescription,omitempty"`
+	HasMetaDescription bool   `json:"hasMetaDescription"`
+	H1Count            int    `json:"h1Count"`
+	HasCanonical       bool   `json:"hasCanonical"`
+	HasOpenGraph       bool   `json:"hasOpenGraph"`
+	HasJSONLD          bool   `json:"hasJsonLd"`
+	HasLang            bool   `json:"hasLang"`
+	ImagesMissingAlt   int    `json:"imagesMissingAlt"`
+	HasViewport        bool   `json:"hasViewport"`
+	InputsWithoutLabel int    `json:"inputsWithoutLabel"`
+	ScriptCount        int    `json:"scriptCount"`
+	StylesheetCount    int    `json:"stylesheetCount"`
+	InlineStyleBytes   int    `json:"inlineStyleBytes"`
+	PSIStrategy        string `json:"psiStrategy,omitempty"`
 }
