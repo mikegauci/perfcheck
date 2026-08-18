@@ -1,0 +1,36 @@
+{{ define "main" }}
+  <section class="perfcheck-hero">
+    <div class="perfcheck-container">
+      <p class="perfcheck-hero__eyebrow">Portfolio demo · Hugo · Go · React</p>
+      <h1 class="perfcheck-hero__title">Know how your site performs — in seconds</h1>
+      <p class="perfcheck-hero__lead">
+        PerfCheck runs a mock performance, SEO and accessibility audit against any URL.
+        Built to demonstrate senior frontend practices with a tiny, understandable stack.
+      </p>
+      <div class="perfcheck-hero__actions">
+        <a class="perfcheck-button perfcheck-button--primary" href="{{ "audit/" | relURL }}">Run a free audit</a>
+        <a class="perfcheck-button perfcheck-button--ghost" href="{{ "how-it-works/" | relURL }}">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="perfcheck-section" aria-labelledby="value-heading">
+    <div class="perfcheck-container">
+      <h2 id="value-heading" class="perfcheck-section__title">What you get</h2>
+      <div class="perfcheck-grid">
+        <article class="perfcheck-card">
+          <h3 class="perfcheck-card__title">Performance score</h3>
+          <p class="perfcheck-card__body">A deterministic mock score covering weight, render-path and resource hygiene signals.</p>
+        </article>
+        <article class="perfcheck-card">
+          <h3 class="perfcheck-card__title">SEO score</h3>
+          <p class="perfcheck-card__body">Metadata, structure and crawlability checks summarised into a clear rating.</p>
+        </article>
+        <article class="perfcheck-card">
+          <h3 class="perfcheck-card__title">Accessibility score</h3>
+          <p class="perfcheck-card__body">Keyboard, contrast and semantics guidance you can act on immediately.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+{{ end }}

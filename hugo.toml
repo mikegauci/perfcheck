@@ -1,6 +1,11 @@
 baseURL = 'http://localhost:1313/'
-languageCode = 'en-gb'
 title = 'PerfCheck'
+defaultContentLanguage = 'en'
+
+[languages.en]
+  languageCode = 'en-GB'
+  languageName = 'English'
+  weight = 1
 enableRobotsTXT = true
 canonifyURLs = false
 disableKinds = ['taxonomy', 'term']

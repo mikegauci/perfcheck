@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+  <head>
+    {{ partial "head/meta.html" . }}
+    {{ partial "head/seo.html" . }}
+    {{ partial "head/css.html" . }}
+  </head>
+  <body class="perfcheck-body">
+    {{ partial "skip-link.html" . }}
+    {{ partial "header.html" . }}
+    <main id="main" class="perfcheck-main" tabindex="-1">
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+    {{ partial "head/js.html" . }}
+  </body>
+</html>
