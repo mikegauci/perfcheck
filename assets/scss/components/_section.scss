@@ -4,7 +4,9 @@
   padding-block: $space-7;
 
   &__title {
-    margin-bottom: $space-5;
+    margin-bottom: 0;
+    padding-bottom: $space-3;
+    border-bottom: 1px solid $color-border;
   }
 
   &__lead {

@@ -4,13 +4,13 @@
 .perfcheck-footer {
   margin-top: $space-8;
   border-top: 1px solid $color-border;
-  background: $color-surface;
+  background: $color-bg;
 
   &__inner {
     display: flex;
     flex-direction: column;
     gap: $space-4;
-    padding-block: $space-6;
+    padding-block: $space-5;
 
     @include up($bp-md) {
       flex-direction: row;
@@ -21,7 +21,9 @@
 
   &__copy {
     margin: 0;
-    font-size: 0.9375rem;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
   }
 
   &__list {
@@ -33,6 +35,7 @@
   &__link {
     text-decoration: none;
     color: $color-ink-muted;
+    font-size: 0.8125rem;
     font-weight: 500;
 
     &:hover {

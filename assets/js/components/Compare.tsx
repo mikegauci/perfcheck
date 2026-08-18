@@ -87,25 +87,49 @@ function fromSettled(url: string, result: PromiseSettledResult<Audit>): Side {
 
 function CompareColumn({ side, other }: { side: Side; other: Side }) {
   if (side.status === 'idle') {
-    return <div className="perfcheck-card"><p className="perfcheck-card__body">Waiting…</p></div>;
+    return (
+      <div className="perfcheck-compare__panel">
+        <p className="perfcheck-card__body">Waiting…</p>
+      </div>
+    );
   }
   if (side.status === 'loading') {
-    return <div className="perfcheck-card"><p className="perfcheck-card__body">Running audit…</p></div>;
+    return (
+      <div className="perfcheck-compare__panel">
+        <p className="perfcheck-card__body">Running audit…</p>
+      </div>
+    );
   }
   if (side.status === 'error' || !side.audit) {
-    return <Alert title="Could not audit this URL" variant="error">{side.message ?? 'Unknown error'}</Alert>;
+    return (
+      <Alert title="Could not audit this URL" variant="error">
+        {side.message ?? 'Unknown error'}
+      </Alert>
+    );
   }
-  const delta = other.status === 'ready' && other.audit
-    ? side.audit.scores.overall - other.audit.scores.overall
-    : null;
+  const delta =
+    other.status === 'ready' && other.audit
+      ? side.audit.scores.overall - other.audit.scores.overall
+      : null;
+  const deltaClass =
+    delta == null || delta === 0
+      ? ''
+      : delta > 0
+        ? ' perfcheck-delta--up'
+        : ' perfcheck-delta--down';
   return (
-    <article className="perfcheck-card">
-      <h2 className="perfcheck-card__title">{side.audit.url}</h2>
+    <article className="perfcheck-compare__panel">
+      <h2 className="perfcheck-compare__url">{side.audit.url}</h2>
       <EngineBadge engine={side.audit.engine} />
-      <ScoreGauge label="Overall" value={side.audit.scores.overall} />
-      <p className="perfcheck-card__meta">
-        Perf {side.audit.scores.performance} · SEO {side.audit.scores.seo} · A11y {side.audit.scores.accessibility}
-        {delta != null ? ` · ${delta > 0 ? '+' : ''}${delta} vs other` : ''}
+      <ScoreGauge label="Overall" value={side.audit.scores.overall} size="lg" />
+      <p className="perfcheck-compare__meta">
+        Perf {side.audit.scores.performance} · SEO {side.audit.scores.seo} · A11y{' '}
+        {side.audit.scores.accessibility}
+        {delta != null ? (
+          <span className={`perfcheck-delta${deltaClass}`}>
+            {` · ${delta > 0 ? '+' : ''}${delta} vs other`}
+          </span>
+        ) : null}
       </p>
     </article>
   );

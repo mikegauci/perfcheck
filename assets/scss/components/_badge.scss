@@ -3,11 +3,15 @@
 .perfcheck-badge {
   display: inline-flex;
   align-items: center;
-  padding: $space-1 $space-3;
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  background: $color-brand-soft;
+  padding: 0.15rem $space-2;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: $color-surface;
   color: $color-brand-strong;
 
   &--mock {
@@ -17,11 +21,13 @@
 
   &--fetch {
     background: $color-brand-soft;
+    border-color: $color-brand;
   }
 
   &--psi {
     background: #e8f1fb;
     color: #1849a9;
+    border-color: #1849a9;
   }
 }
 
@@ -31,10 +37,12 @@
   summary {
     cursor: pointer;
     font-weight: 600;
+    font-family: $font-serif;
   }
 
   dl {
     margin: $space-3 0 0;
+    border-top: 1px solid $color-border;
   }
 
   &__row {
@@ -46,12 +54,15 @@
   }
 
   dt {
-    font-weight: 600;
+    font-family: $font-mono;
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
 
   dd {
     margin: 0;
     color: $color-ink-muted;
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -60,8 +71,52 @@
   gap: $space-5;
   margin-top: $space-6;
   grid-template-columns: 1fr;
+  border-top: 1px solid $color-border;
+  padding-top: $space-5;
 
   @media (min-width: 48rem) {
     grid-template-columns: 1fr 1fr;
+    gap: 0;
+
+    > *:first-child {
+      padding-right: $space-6;
+      border-right: 1px solid $color-border;
+    }
+
+    > *:last-child {
+      padding-left: $space-6;
+    }
+  }
+
+  &__panel {
+    display: grid;
+    gap: $space-4;
+    align-content: start;
+  }
+
+  &__url {
+    margin: 0;
+    font-family: $font-mono;
+    font-size: 1rem;
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  &__meta {
+    margin: 0;
+    font-family: $font-mono;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: $color-ink-muted;
+  }
+}
+
+.perfcheck-delta {
+  &--up {
+    color: $color-success;
+  }
+
+  &--down {
+    color: $color-accent;
   }
 }

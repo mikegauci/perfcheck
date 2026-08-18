@@ -1,0 +1,182 @@
+{{ define "main" }}
+  <article>
+    <header class="perfcheck-hero">
+      <div class="perfcheck-container perfcheck-hero__inner">
+        <div class="perfcheck-hero__copy">
+          <p class="perfcheck-hero__kicker">Method</p>
+          <h1 class="perfcheck-hero__title">{{ .Title }}</h1>
+          <p class="perfcheck-hero__lead">
+            You submit a URL. Hugo has already sent the document. React mounts only where it must.
+            The Go API validates the address, runs a scorer chain, and stores the result — labelled with the engine that produced it.
+          </p>
+        </div>
+        <aside class="perfcheck-specimen" aria-hidden="true">
+          <p class="perfcheck-specimen__kicker">Scorer chain</p>
+          <ol class="perfcheck-method__stack">
+            <li>
+              <span class="perfcheck-badge perfcheck-badge--psi">psi</span>
+              <span>PageSpeed first</span>
+            </li>
+            <li>
+              <span class="perfcheck-badge perfcheck-badge--fetch">fetch</span>
+              <span>Live HTML if PSI fails</span>
+            </li>
+            <li>
+              <span class="perfcheck-badge perfcheck-badge--mock">mock</span>
+              <span>Deterministic fallback</span>
+            </li>
+          </ol>
+        </aside>
+      </div>
+    </header>
+
+    <section class="perfcheck-section" aria-labelledby="flow-heading">
+      <div class="perfcheck-container">
+        <h2 id="flow-heading" class="perfcheck-section__title">The flow</h2>
+        <ol class="perfcheck-steps">
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">01</span>
+            {{ partial "icon.html" "url" }}
+            <div>
+              <h3 class="perfcheck-steps__title">You enter a URL</h3>
+              <p class="perfcheck-steps__body">The audit form uses real HTML semantics and accessible validation. React lives only on this island.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">02</span>
+            {{ partial "icon.html" "document" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Hugo serves the document</h3>
+              <p class="perfcheck-steps__body">Marketing pages ship as static HTML and CSS. The home page has no JavaScript.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">03</span>
+            {{ partial "icon.html" "island" }}
+            <div>
+              <h3 class="perfcheck-steps__title">An island mounts</h3>
+              <p class="perfcheck-steps__body">Audit, compare, result and dashboard hydrate from <code>data-react-island</code>. Everything else stays a document.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">04</span>
+            {{ partial "icon.html" "api" }}
+            <div>
+              <h3 class="perfcheck-steps__title">Go scores the URL</h3>
+              <p class="perfcheck-steps__body">The API validates the address, then tries PageSpeed Insights, a live HTML fetch, and a mock — in that order. The first success wins.</p>
+            </div>
+          </li>
+          <li class="perfcheck-steps__row">
+            <span class="perfcheck-steps__index">05</span>
+            {{ partial "icon.html" "ledger" }}
+            <div>
+              <h3 class="perfcheck-steps__title">The result is stored</h3>
+              <p class="perfcheck-steps__body">Recommendations come from a rule catalogue. The dashboard lists previous audits from a Repository — memory or SQLite.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="path-heading">
+      <div class="perfcheck-container">
+        <h2 id="path-heading" class="perfcheck-section__title">Request path</h2>
+        <figure class="perfcheck-schematic">
+          <figcaption class="perfcheck-schematic__caption">Browser → document → island → API</figcaption>
+          <ol class="perfcheck-schematic__tree">
+            <li>
+              <span class="perfcheck-schematic__node">Browser</span>
+              <ol>
+                <li>
+                  <span class="perfcheck-schematic__node">Hugo HTML/CSS</span>
+                  <span class="perfcheck-schematic__hint">Marketing pages. Zero JS.</span>
+                </li>
+                <li>
+                  <span class="perfcheck-schematic__node">React island</span>
+                  <span class="perfcheck-schematic__hint">/audit, /compare, /result, /dashboard</span>
+                  <ol>
+                    <li>
+                      <span class="perfcheck-schematic__node">Go API <code>/api/v1/audits</code></span>
+                      <ol>
+                        <li><span class="perfcheck-schematic__node">Validate URL</span></li>
+                        <li><span class="perfcheck-schematic__node">TTL cache</span></li>
+                        <li><span class="perfcheck-schematic__node">ChainScorer · PSI → fetch → mock</span></li>
+                        <li><span class="perfcheck-schematic__node">Recommendation rules</span></li>
+                        <li><span class="perfcheck-schematic__node">Repository · memory or SQLite</span></li>
+                      </ol>
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </figure>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="engines-heading">
+      <div class="perfcheck-container">
+        <h2 id="engines-heading" class="perfcheck-section__title">Scoring engines</h2>
+        <p class="perfcheck-section__lead">PerfCheck never pretends a number is more real than it is. The badge on each result is the provenance.</p>
+        <div class="perfcheck-chain">
+          <article class="perfcheck-chain__item">
+            <span class="perfcheck-badge perfcheck-badge--psi">psi</span>
+            <h3 class="perfcheck-chain__title">PageSpeed Insights</h3>
+            <p class="perfcheck-chain__body">Lighthouse lab scores, mobile strategy. First choice when <code>auto</code> is on.</p>
+          </article>
+          <span class="perfcheck-chain__rule" aria-hidden="true">→</span>
+          <article class="perfcheck-chain__item">
+            <span class="perfcheck-badge perfcheck-badge--fetch">fetch</span>
+            <h3 class="perfcheck-chain__title">Live page fetch</h3>
+            <p class="perfcheck-chain__body">One HTTP GET and HTML inspection. Runs when PSI is disabled or errors.</p>
+          </article>
+          <span class="perfcheck-chain__rule" aria-hidden="true">→</span>
+          <article class="perfcheck-chain__item">
+            <span class="perfcheck-badge perfcheck-badge--mock">mock</span>
+            <h3 class="perfcheck-chain__title">Deterministic mock</h3>
+            <p class="perfcheck-chain__body">FNV hash of the URL. Same input, same scores. Last fallback so a demo never hard-fails.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="shows-heading">
+      <div class="perfcheck-container">
+        <h2 id="shows-heading" class="perfcheck-section__title">What this demonstrates</h2>
+        <ol class="perfcheck-spec">
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">01</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Static HTML first</h3>
+              <p class="perfcheck-spec__body">Documents are complete before JavaScript runs. Better for SEO, performance and noscript.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">02</span>
+            <div>
+              <h3 class="perfcheck-spec__title">React islands, not an SPA</h3>
+              <p class="perfcheck-spec__body">Interactive regions mount from a data attribute. The rest of the site does not wait on a bundle.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">03</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Shared BEM</h3>
+              <p class="perfcheck-spec__body">Hugo templates and React components use the same class names. One design system, two renderers.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">04</span>
+            <div>
+              <h3 class="perfcheck-spec__title">A tiny Go API</h3>
+              <p class="perfcheck-spec__body">Clear package boundaries: validate, score, recommend, persist. The dashboard sits behind a password.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="perfcheck-method__cta">
+          <a class="perfcheck-button perfcheck-button--primary" href="{{ "audit/" | relURL }}">Run an audit</a>
+        </p>
+      </div>
+    </section>
+  </article>
+{{ end }}

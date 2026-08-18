@@ -1,7 +1,13 @@
 <header class="perfcheck-header">
   <div class="perfcheck-container perfcheck-header__inner">
     <a class="perfcheck-header__brand" href="{{ "/" | relURL }}">
-      <span class="perfcheck-header__mark" aria-hidden="true">PC</span>
+      <span class="perfcheck-header__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" focusable="false">
+          <rect x="4" y="14" width="2.5" height="6" fill="currentColor"/>
+          <rect x="10.75" y="9" width="2.5" height="11" fill="currentColor"/>
+          <rect x="17.5" y="4" width="2.5" height="16" fill="currentColor"/>
+        </svg>
+      </span>
       <span class="perfcheck-header__name">{{ site.Title }}</span>
     </a>
 
@@ -26,7 +32,7 @@
         <li class="perfcheck-header__item">
           <a class="perfcheck-header__link{{ if eq .RelPermalink "/audit/" }} perfcheck-header__link--active{{ end }}" href="{{ "audit/" | relURL }}">Run audit</a>
         </li>
-        <li className="perfcheck-header__item">
+        <li class="perfcheck-header__item">
           <a class="perfcheck-header__link{{ if eq .RelPermalink "/compare/" }} perfcheck-header__link--active{{ end }}" href="{{ "compare/" | relURL }}">Compare</a>
         </li>
         <li class="perfcheck-header__item">

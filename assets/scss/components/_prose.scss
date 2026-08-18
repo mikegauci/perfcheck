@@ -7,15 +7,22 @@
     margin-top: 0;
   }
 
-  ul,
-  ol {
+  h1 {
+    padding-bottom: $space-4;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $space-5;
+  }
+
+  ul:not([class]),
+  ol:not([class]) {
     margin: 0 0 $space-4;
     padding-left: 1.25rem;
     list-style: disc;
     color: $color-ink-muted;
   }
 
-  li + li {
+  ul:not([class]) li + li,
+  ol:not([class]) li + li {
     margin-top: $space-2;
   }
 

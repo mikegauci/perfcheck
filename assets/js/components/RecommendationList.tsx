@@ -14,19 +14,24 @@ export function RecommendationList({ items }: RecommendationListProps) {
   return (
     <section aria-labelledby="recs-heading">
       <h2 id="recs-heading">Recommendations</h2>
-      <ul className="perfcheck-recommendations">
-        {items.map((item) => (
+      <ol className="perfcheck-recommendations">
+        {items.map((item, index) => (
           <li key={item.id} className="perfcheck-recommendations__item">
-            <div className="perfcheck-recommendations__meta">
-              <span>{item.category}</span>
-              <span>·</span>
-              <span>{item.severity}</span>
+            <span className="perfcheck-recommendations__index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <div className="perfcheck-recommendations__meta">
+                <span>{item.category}</span>
+                <span>·</span>
+                <span>{item.severity}</span>
+              </div>
+              <h3 className="perfcheck-recommendations__title">{item.title}</h3>
+              <p className="perfcheck-recommendations__detail">{item.detail}</p>
             </div>
-            <h3 className="perfcheck-recommendations__title">{item.title}</h3>
-            <p className="perfcheck-recommendations__detail">{item.detail}</p>
           </li>
         ))}
-      </ul>
+      </ol>
     </section>
   );
 }

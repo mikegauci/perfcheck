@@ -3,13 +3,11 @@
 .perfcheck-card {
   background: $color-surface;
   border: 1px solid $color-border;
-  border-radius: $radius-lg;
+  border-radius: $radius-sm;
   padding: $space-5;
-  box-shadow: $shadow-sm;
 
   &--featured {
     border-color: $color-brand;
-    box-shadow: $shadow-md;
   }
 
   &__title {
@@ -22,7 +20,9 @@
 
   &__meta {
     margin: $space-3 0 0;
-    font-size: 0.875rem;
+    font-family: $font-mono;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
     color: $color-ink-muted;
   }
 }

@@ -8,16 +8,22 @@
   &__label {
     display: block;
     margin-bottom: $space-2;
-    font-weight: 600;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   &__input {
     width: 100%;
-    min-height: 2.75rem;
+    min-height: 2.5rem;
     padding: $space-2 $space-3;
     border: 1px solid $color-border;
-    border-radius: $radius-md;
+    border-radius: $radius-sm;
     background: $color-surface;
+    font-family: $font-mono;
+    font-size: 0.9375rem;
 
     &[aria-invalid='true'] {
       border-color: $color-danger;

@@ -2,7 +2,7 @@
 
 .perfcheck-alert {
   padding: $space-4;
-  border-radius: $radius-md;
+  border-radius: $radius-sm;
   border: 1px solid $color-border;
   background: $color-surface;
 
@@ -20,7 +20,8 @@
 
   &__title {
     margin: 0 0 $space-2;
-    font-weight: 700;
+    font-family: $font-serif;
+    font-weight: 600;
   }
 
   &__body {

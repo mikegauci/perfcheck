@@ -1,0 +1,33 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-spec {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: $space-4;
+    padding-block: $space-5;
+    border-bottom: 1px solid $color-border;
+    align-items: start;
+  }
+
+  &__index {
+    font-family: $font-mono;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $color-accent;
+    padding-top: 0.2rem;
+  }
+
+  &__title {
+    margin-bottom: $space-2;
+  }
+
+  &__body {
+    margin: 0;
+  }
+}

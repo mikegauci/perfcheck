@@ -11,7 +11,7 @@ export function ScoreCard({ scores, url }: ScoreCardProps) {
     <section className="perfcheck-score" aria-labelledby="audit-results-heading">
       <h2 id="audit-results-heading">Results for {url}</h2>
       <div className="perfcheck-score__summary">
-        <ScoreGauge label="Overall" value={scores.overall} />
+        <ScoreGauge label="Overall" value={scores.overall} size="lg" />
         <div className="perfcheck-score__gauges">
           <ScoreGauge label="Performance" value={scores.performance} />
           <ScoreGauge label="SEO" value={scores.seo} />
