@@ -101,10 +101,11 @@
     list-style: none;
     font-family: $font-mono;
     font-size: 0.9375rem;
+    line-height: 1.45;
 
     ol {
-      margin: $space-2 0 0 0.35rem;
-      padding: 0 0 0 $space-4;
+      margin: $space-2 0 0 0.55em;
+      padding: 0;
       list-style: none;
       border-left: 1px solid $color-border;
     }
@@ -118,16 +119,28 @@
       content: '';
       position: absolute;
       left: 0;
-      top: 1.05em;
+      top: calc(#{$space-2} + 0.5lh);
       width: $space-4;
       height: 1px;
       background: $color-border;
+      transform: translateY(-0.5px);
+    }
+
+    ol > li:last-child::after {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: calc(#{$space-2} + 0.5lh);
+      bottom: 0;
+      width: 1px;
+      background: $color-surface;
     }
 
     > li {
-      padding-left: 0;
+      padding: 0;
 
-      &::before {
+      &::before,
+      &::after {
         content: none;
       }
     }

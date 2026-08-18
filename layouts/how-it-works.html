@@ -81,20 +81,22 @@
               <ol>
                 <li>
                   <span class="perfcheck-schematic__node">Hugo HTML/CSS</span>
-                  <span class="perfcheck-schematic__hint">Marketing pages. Zero JS.</span>
-                </li>
-                <li>
-                  <span class="perfcheck-schematic__node">React island</span>
-                  <span class="perfcheck-schematic__hint">/audit, /compare, /result, /dashboard</span>
+                  <span class="perfcheck-schematic__hint">Every page is a document. Marketing has zero JS.</span>
                   <ol>
                     <li>
-                      <span class="perfcheck-schematic__node">Go API <code>/api/v1/audits</code></span>
+                      <span class="perfcheck-schematic__node">React island</span>
+                      <span class="perfcheck-schematic__hint">/audit, /compare, /result, /dashboard</span>
                       <ol>
-                        <li><span class="perfcheck-schematic__node">Validate URL</span></li>
-                        <li><span class="perfcheck-schematic__node">TTL cache</span></li>
-                        <li><span class="perfcheck-schematic__node">FetchScorer · live HTML GET</span></li>
-                        <li><span class="perfcheck-schematic__node">Recommendation rules</span></li>
-                        <li><span class="perfcheck-schematic__node">Repository · memory or SQLite</span></li>
+                        <li>
+                          <span class="perfcheck-schematic__node">Go API <code>/api/v1/audits</code></span>
+                          <ol>
+                            <li><span class="perfcheck-schematic__node">Validate URL</span></li>
+                            <li><span class="perfcheck-schematic__node">TTL cache</span></li>
+                            <li><span class="perfcheck-schematic__node">FetchScorer · live HTML GET</span></li>
+                            <li><span class="perfcheck-schematic__node">Recommendation rules</span></li>
+                            <li><span class="perfcheck-schematic__node">Repository · memory or SQLite</span></li>
+                          </ol>
+                        </li>
                       </ol>
                     </li>
                   </ol>
