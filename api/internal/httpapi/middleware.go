@@ -113,10 +113,3 @@ func withRateLimit(limiter *simpleIPRateLimiter) middleware {
 		})
 	}
 }
-
-func withGzip(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Keep middleware present for Phase 6; stdlib gzip wrapper applied selectively in static serving.
-		next.ServeHTTP(w, r)
-	})
-}
