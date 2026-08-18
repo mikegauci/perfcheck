@@ -9,6 +9,7 @@ import (
 
 	"github.com/mikegauci/perfcheck/api/internal/audit"
 	"github.com/mikegauci/perfcheck/api/internal/httpapi"
+	"github.com/mikegauci/perfcheck/api/internal/session"
 	"github.com/mikegauci/perfcheck/api/internal/storage"
 )
 
@@ -19,6 +20,8 @@ func main() {
 	scorerMode := flag.String("scorer", "auto", "Scoring engine: auto, psi, fetch or mock")
 	cacheTTL := flag.Duration("cache-ttl", 15*time.Minute, "TTL for scoring cache")
 	dbPath := flag.String("db", "", "SQLite path (empty uses in-memory storage)")
+	dashboardPassword := flag.String("dashboard-password", "", "Optional password protecting GET /api/v1/audits")
+	sessionSecret := flag.String("session-secret", os.Getenv("PERFCHECK_SESSION_SECRET"), "HMAC secret for session cookies")
 	flag.Parse()
 
 	scorer, err := audit.NewConfiguredScorer(audit.ScorerOptions{
@@ -38,9 +41,11 @@ func main() {
 		defer c.Close()
 	}
 
+	sessions := session.New(*sessionSecret, *dashboardPassword, false)
 	svc := audit.NewService(repo, scorer)
 	handler := httpapi.NewRouter(httpapi.Options{
 		Service:    svc,
+		Sessions:   sessions,
 		CORSOrigin: *corsOrigin,
 		StaticDir:  *staticDir,
 	})

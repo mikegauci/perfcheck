@@ -6,19 +6,22 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/mikegauci/perfcheck/api/internal/audit"
+	"github.com/mikegauci/perfcheck/api/internal/session"
 	"github.com/mikegauci/perfcheck/api/internal/validate"
 )
 
 // Server holds HTTP dependencies.
 type Server struct {
-	svc *audit.Service
+	svc      *audit.Service
+	sessions *session.Manager
 }
 
 // NewServer constructs an API server.
-func NewServer(svc *audit.Service) *Server {
-	return &Server{svc: svc}
+func NewServer(svc *audit.Service, sessions *session.Manager) *Server {
+	return &Server{svc: svc, sessions: sessions}
 }
 
 type createRequest struct {
@@ -61,6 +64,10 @@ func (s *Server) mapCreateError(w http.ResponseWriter, err error) {
 }
 
 func (s *Server) handleListAudits(w http.ResponseWriter, r *http.Request) {
+	if s.sessions != nil && s.sessions.Enabled() && !s.sessions.Authenticated(r, time.Now()) {
+		writeError(w, http.StatusUnauthorized, "unauthorized", "Sign in to view audit history.", "")
+		return
+	}
 	limit := 20
 	if raw := r.URL.Query().Get("limit"); raw != "" {
 		n, err := strconv.Atoi(raw)
@@ -97,4 +104,40 @@ func (s *Server) handleGetAudit(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Cache-Control", "no-store")
 	writeJSON(w, http.StatusOK, a)
+}
+
+type loginRequest struct {
+	Password string `json:"password"`
+}
+
+func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
+	if s.sessions == nil || !s.sessions.Enabled() {
+		writeJSON(w, http.StatusOK, map[string]any{"ok": true, "auth": false})
+		return
+	}
+	defer r.Body.Close()
+	var req loginRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeError(w, http.StatusBadRequest, "invalid_json", "Request body must be JSON with a password field.", "")
+		return
+	}
+	if !s.sessions.CheckPassword(req.Password) {
+		writeError(w, http.StatusUnauthorized, "unauthorized", "Incorrect password.", "password")
+		return
+	}
+	s.sessions.SetCookie(w, time.Now())
+	writeJSON(w, http.StatusOK, map[string]any{"ok": true})
+}
+
+func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
+	if s.sessions != nil {
+		s.sessions.ClearCookie(w)
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (s *Server) handleSession(w http.ResponseWriter, r *http.Request) {
+	required := s.sessions != nil && s.sessions.Enabled()
+	ok := !required || s.sessions.Authenticated(r, time.Now())
+	writeJSON(w, http.StatusOK, map[string]any{"authRequired": required, "authenticated": ok})
 }
