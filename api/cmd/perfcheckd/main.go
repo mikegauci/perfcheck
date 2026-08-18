@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/mikegauci/perfcheck/api/internal/audit"
@@ -15,10 +16,21 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	corsOrigin := flag.String("cors-origin", "http://localhost:1313", "Allowed CORS origin (empty disables CORS)")
 	staticDir := flag.String("static", "", "Optional directory of Hugo public/ files to serve")
+	scorerMode := flag.String("scorer", "auto", "Scoring engine: auto, psi, fetch or mock")
+	cacheTTL := flag.Duration("cache-ttl", 15*time.Minute, "TTL for scoring cache")
 	flag.Parse()
 
+	scorer, err := audit.NewConfiguredScorer(audit.ScorerOptions{
+		Mode:     *scorerMode,
+		PSIKey:   os.Getenv("PSI_API_KEY"),
+		CacheTTL: *cacheTTL,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	repo := storage.NewMemory(100)
-	svc := audit.NewService(repo, audit.MockScorer{})
+	svc := audit.NewService(repo, scorer)
 	handler := httpapi.NewRouter(httpapi.Options{
 		Service:    svc,
 		CORSOrigin: *corsOrigin,
@@ -30,11 +42,11 @@ func main() {
 		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       15 * time.Second,
-		WriteTimeout:      30 * time.Second,
+		WriteTimeout:      90 * time.Second,
 		IdleTimeout:       60 * time.Second,
 	}
 
-	log.Printf("perfcheckd listening on %s (cors=%q static=%q)", *addr, *corsOrigin, *staticDir)
+	log.Printf("perfcheckd listening on %s (cors=%q static=%q scorer=%s)", *addr, *corsOrigin, *staticDir, *scorerMode)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
