@@ -14,7 +14,7 @@ api/bin/
 *.exe
 *.test
 *.out
-perfcheckd
+/perfcheckd
 
 # OS / IDE
 .DS_Store
