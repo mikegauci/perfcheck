@@ -1,0 +1,73 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-island {
+  display: flow-root;
+  min-height: var(--island-min-height, 0);
+
+  &--audit-form {
+    --island-min-height: 11rem;
+  }
+
+  &--compare {
+    --island-min-height: 18rem;
+  }
+
+  &--dashboard {
+    --island-min-height: 28rem;
+  }
+
+  &--result-view {
+    --island-min-height: 20rem;
+  }
+
+  &__fallback {
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+.perfcheck-island-skel {
+  display: grid;
+  gap: $space-4;
+
+  &__badge,
+  &__title,
+  &__gauge {
+    background: $color-border;
+    animation: perfcheck-pulse 1.2s ease-in-out infinite;
+    opacity: 0.45;
+  }
+
+  &__badge {
+    width: 6rem;
+    height: 1.25rem;
+  }
+
+  &__title {
+    width: min(24rem, 100%);
+    height: 1.75rem;
+  }
+
+  &__gauge {
+    height: 2.75rem;
+
+    &--lg {
+      height: 5rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perfcheck-island-skel__badge,
+  .perfcheck-island-skel__title,
+  .perfcheck-island-skel__gauge {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+@keyframes perfcheck-pulse {
+  50% {
+    opacity: 0.18;
+  }
+}

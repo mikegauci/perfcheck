@@ -82,13 +82,7 @@ export function Dashboard({ client }: DashboardProps) {
   }, [state, sort, query]);
 
   if (state.status === 'loading') {
-    return (
-      <div className="perfcheck-dashboard" aria-busy="true">
-        <div className="perfcheck-dashboard__skeleton" />
-        <div className="perfcheck-dashboard__skeleton" />
-        <p className="perfcheck-sr-only">Loading audits…</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (state.status === 'auth') {
@@ -210,6 +204,25 @@ export function Dashboard({ client }: DashboardProps) {
         ) : null}
         </>
       )}
+    </div>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="perfcheck-dashboard" aria-busy="true">
+      <div className="perfcheck-dashboard__toolbar">
+        <div className="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--field" />
+        <div className="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--field" />
+      </div>
+      <ul className="perfcheck-dashboard__list" aria-hidden="true">
+        {Array.from({ length: 5 }, (_, i) => (
+          <li key={i} className="perfcheck-dashboard__item">
+            <div className="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--row" />
+          </li>
+        ))}
+      </ul>
+      <p className="perfcheck-sr-only">Loading audits…</p>
     </div>
   );
 }

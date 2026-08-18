@@ -1,6 +1,4 @@
-{{- $component := .Params.island -}}
-{{- if $component -}}
-  {{ partial "react-island.html" (dict "component" $component "fallback" .Content) }}
-{{- else -}}
-  {{ .Content }}
+{{ .Content }}
+{{- with .Params.island -}}
+  {{ partial "react-island.html" (dict "component" .) }}
 {{- end -}}

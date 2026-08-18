@@ -1,0 +1,63 @@
+{{- $component := . -}}
+{{- if eq $component "audit-form" -}}
+  <div class="perfcheck-audit" aria-hidden="true">
+    <form class="perfcheck-form">
+      <div>
+        <span class="perfcheck-form__label">Website URL</span>
+        <input class="perfcheck-form__input" type="url" value="https://" disabled tabindex="-1">
+        <p class="perfcheck-form__hint">Example: https://example.com</p>
+      </div>
+      <div class="perfcheck-form__actions">
+        <button class="perfcheck-button perfcheck-button--primary" type="button" disabled tabindex="-1">Run audit</button>
+      </div>
+    </form>
+    <div class="perfcheck-audit__live"></div>
+  </div>
+{{- else if eq $component "compare" -}}
+  <div aria-hidden="true">
+    <form class="perfcheck-form">
+      <div>
+        <span class="perfcheck-form__label">First URL</span>
+        <input class="perfcheck-form__input" type="url" value="https://" disabled tabindex="-1">
+      </div>
+      <div>
+        <span class="perfcheck-form__label">Second URL</span>
+        <input class="perfcheck-form__input" type="url" value="https://" disabled tabindex="-1">
+      </div>
+      <div class="perfcheck-form__actions">
+        <button class="perfcheck-button perfcheck-button--primary" type="button" disabled tabindex="-1">Compare</button>
+      </div>
+    </form>
+    <div class="perfcheck-compare">
+      <div class="perfcheck-compare__panel">
+        <p class="perfcheck-card__body">Waiting…</p>
+      </div>
+      <div class="perfcheck-compare__panel">
+        <p class="perfcheck-card__body">Waiting…</p>
+      </div>
+    </div>
+  </div>
+{{- else if eq $component "dashboard" -}}
+  <div class="perfcheck-dashboard" aria-hidden="true">
+    <div class="perfcheck-dashboard__toolbar">
+      <div class="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--field"></div>
+      <div class="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--field"></div>
+    </div>
+    <ul class="perfcheck-dashboard__list">
+      {{- range seq 5 -}}
+        <li class="perfcheck-dashboard__item">
+          <div class="perfcheck-dashboard__skeleton perfcheck-dashboard__skeleton--row"></div>
+        </li>
+      {{- end -}}
+    </ul>
+  </div>
+{{- else -}}
+  <div class="perfcheck-island-skel" aria-hidden="true">
+    <div class="perfcheck-island-skel__badge"></div>
+    <div class="perfcheck-island-skel__title"></div>
+    <div class="perfcheck-island-skel__gauge perfcheck-island-skel__gauge--lg"></div>
+    <div class="perfcheck-island-skel__gauge"></div>
+    <div class="perfcheck-island-skel__gauge"></div>
+    <div class="perfcheck-island-skel__gauge"></div>
+  </div>
+{{- end -}}

@@ -5,6 +5,7 @@
     {{ partial "head/seo.html" . }}
     {{ partial "head/schema.html" . }}
     {{ partial "head/css.html" . }}
+    {{ partial "head/js.html" . }}
   </head>
   <body class="perfcheck-body">
     {{ partial "skip-link.html" . }}
@@ -13,6 +14,5 @@
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer.html" . }}
-    {{ partial "head/js.html" . }}
   </body>
 </html>

@@ -1,4 +1,4 @@
-{{- /* React island script — only when page opts in via front matter */ -}}
+{{- /* Defer in <head> so the island bundle downloads during HTML parse. */ -}}
 {{- if .Params.island -}}
   {{ $opts := dict
     "targetPath" "js/main.js"
@@ -12,10 +12,10 @@
   {{ with resources.Get "js/main.tsx" }}
     {{ with . | js.Build $opts }}
       {{ if hugo.IsDevelopment }}
-        <script src="{{ .RelPermalink }}" defer></script>
+        <script src="{{ .RelPermalink }}" defer fetchpriority="high"></script>
       {{ else }}
         {{ with . | fingerprint }}
-          <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" defer></script>
+          <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" defer fetchpriority="high"></script>
         {{ end }}
       {{ end }}
     {{ end }}

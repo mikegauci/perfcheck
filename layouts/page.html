@@ -3,10 +3,9 @@
     <div class="perfcheck-container">
       <div class="perfcheck-prose">
         <h1>{{ .Title }}</h1>
+        {{ .Content }}
         {{ if .Params.island }}
-          {{ partial "react-island.html" (dict "component" .Params.island "fallback" .Content) }}
-        {{ else }}
-          {{ .Content }}
+          {{ partial "react-island.html" (dict "component" .Params.island) }}
         {{ end }}
       </div>
     </div>

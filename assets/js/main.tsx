@@ -13,43 +13,41 @@ function mountIslands() {
   const nodes = document.querySelectorAll<HTMLElement>('[data-react-island]');
   nodes.forEach((node) => {
     const component = node.dataset.component;
-    const fallback = node.querySelector('[data-island-fallback]');
-    if (fallback) {
-      fallback.remove();
+    const rootEl = node.querySelector<HTMLElement>('[data-island-root]');
+    if (!rootEl) {
+      return;
     }
 
-    const root = createRoot(node);
+    const root = createRoot(rootEl);
     if (component === 'audit-form') {
       root.render(
         <ErrorBoundary>
           <AuditForm client={client} />
         </ErrorBoundary>,
       );
-      return;
-    }
-    if (component === 'dashboard') {
+    } else if (component === 'dashboard') {
       root.render(
         <ErrorBoundary>
           <Dashboard client={client} />
         </ErrorBoundary>,
       );
-      return;
-    }
-    if (component === 'result-view') {
+    } else if (component === 'result-view') {
       root.render(
         <ErrorBoundary>
           <ResultView client={client} />
         </ErrorBoundary>,
       );
-      return;
-    }
-    if (component === 'compare') {
+    } else if (component === 'compare') {
       root.render(
         <ErrorBoundary>
           <Compare client={client} />
         </ErrorBoundary>,
       );
+    } else {
+      return;
     }
+
+    node.removeAttribute('aria-busy');
   });
 }
 

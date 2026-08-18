@@ -48,12 +48,15 @@
     background: $color-border;
     animation: perfcheck-pulse 1.2s ease-in-out infinite;
     opacity: 0.45;
-  }
-}
 
-@keyframes perfcheck-pulse {
-  50% {
-    opacity: 0.18;
+    &--field {
+      width: min(16rem, 100%);
+      height: 4.25rem;
+    }
+
+    &--row {
+      height: 3.5rem;
+    }
   }
 }
 

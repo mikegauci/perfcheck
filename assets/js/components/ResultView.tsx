@@ -3,6 +3,7 @@ import type { ApiClient } from '../api/client';
 import { ApiError } from '../api/types';
 import { Alert } from './Alert';
 import { AuditReport } from './AuditReport';
+import { ReportSkeleton } from './ReportSkeleton';
 
 type ResultViewProps = {
   client: ApiClient;
@@ -41,7 +42,7 @@ export function ResultView({ client }: ResultViewProps) {
   }, [client, id]);
 
   if (loading) {
-    return <p>Loading result…</p>;
+    return <ReportSkeleton />;
   }
   if (error || !audit) {
     return (
