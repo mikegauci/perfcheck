@@ -19,4 +19,6 @@ docker run --rm -p 8080:8080 \
   perfcheck
 ```
 
-The image entrypoint will use `-db /data/perfcheck.db` once that flag is wired in the Dockerfile.
+The image entrypoint already passes `-db /data/perfcheck.db`. Mount a volume at `/data` so the file survives container restarts.
+
+On Fly.io, `fly.toml` mounts the `perfcheck_data` volume at `/data`. Create the volume once with `fly volumes create perfcheck_data --region lhr`.
