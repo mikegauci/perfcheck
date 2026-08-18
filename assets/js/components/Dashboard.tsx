@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ApiClient } from '../api/client';
 import { ApiError, type Audit } from '../api/types';
 import { Alert } from './Alert';
+import { EngineBadge } from './EngineBadge';
 import { LoginForm } from './LoginForm';
 
 type DashboardProps = {
@@ -21,6 +22,8 @@ export function Dashboard({ client }: DashboardProps) {
   const [state, setState] = useState<DashState>({ status: 'loading' });
   const [sort, setSort] = useState<SortKey>('newest');
   const [query, setQuery] = useState('');
+  const [engine, setEngine] = useState('all');
+  const [visible, setVisible] = useState(10);
   const [reload, setReload] = useState(0);
 
   const load = useCallback(async () => {
@@ -53,6 +56,9 @@ export function Dashboard({ client }: DashboardProps) {
     if (q) {
       items = items.filter((a) => a.url.toLowerCase().includes(q));
     }
+    if (engine !== 'all') {
+      items = items.filter((a) => a.engine === engine);
+    }
     const sorted = [...items];
     sorted.sort((a, b) => {
       switch (sort) {
@@ -68,7 +74,7 @@ export function Dashboard({ client }: DashboardProps) {
       }
     });
     return sorted;
-  }, [state, sort, query]);
+  }, [state, sort, query, engine]);
 
   if (state.status === 'loading') {
     return (
@@ -92,7 +98,14 @@ export function Dashboard({ client }: DashboardProps) {
   }
 
   if (state.status === 'error') {
-    return <Alert title="Could not load dashboard" variant="error">{state.message}</Alert>;
+    return (
+      <div>
+        <Alert title="Could not load dashboard" variant="error">{state.message}</Alert>
+        <button type="button" className="perfcheck-button perfcheck-button--primary" onClick={() => void load()}>
+          Retry
+        </button>
+      </div>
+    );
   }
 
   if (state.status === 'empty') {
@@ -134,6 +147,22 @@ export function Dashboard({ client }: DashboardProps) {
             <option value="score-asc">Lowest score</option>
           </select>
         </div>
+        <div>
+          <label className="perfcheck-form__label" htmlFor="dash-engine">
+            Engine
+          </label>
+          <select
+            id="dash-engine"
+            className="perfcheck-form__input"
+            value={engine}
+            onChange={(e) => setEngine(e.target.value)}
+          >
+            <option value="all">All engines</option>
+            <option value="psi">PageSpeed</option>
+            <option value="fetch">Fetch</option>
+            <option value="mock">Simulated</option>
+          </select>
+        </div>
       </div>
 
       {filtered.length === 0 ? (
@@ -141,10 +170,14 @@ export function Dashboard({ client }: DashboardProps) {
           No audits match that filter.
         </Alert>
       ) : (
+        <>
         <ul className="perfcheck-dashboard__list">
-          {filtered.map((item) => (
+          {filtered.slice(0, visible).map((item) => (
             <li key={item.id} className="perfcheck-dashboard__item">
-              <div className="perfcheck-dashboard__url">{item.url}</div>
+              <div className="perfcheck-dashboard__url">
+                <a href={`/result/?id=${item.id}`}>{item.url}</a>
+              </div>
+              <EngineBadge engine={item.engine} />
               <div className="perfcheck-dashboard__scores">
                 <span>Overall {item.scores.overall}</span>
                 <span>Perf {item.scores.performance}</span>
@@ -155,6 +188,16 @@ export function Dashboard({ client }: DashboardProps) {
             </li>
           ))}
         </ul>
+        {visible < filtered.length ? (
+          <button
+            type="button"
+            className="perfcheck-button perfcheck-button--ghost"
+            onClick={() => setVisible((n) => n + 10)}
+          >
+            Load more
+          </button>
+        ) : null}
+        </>
       )}
     </div>
   );
