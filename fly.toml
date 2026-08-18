@@ -1,9 +1,11 @@
-# Fly.io optional deploy config — adjust app name before first launch.
-app = "perfcheck-demo"
+# Fly.io deploy config — one process serves Hugo public/ and the Go API.
+app = "perfcheck-mikegauci"
 primary_region = "lhr"
 
 [build]
   dockerfile = "Dockerfile"
+  [build.args]
+    HUGO_BASEURL = "https://perfcheck-mikegauci.fly.dev/"
 
 [http_service]
   internal_port = 8080
@@ -20,3 +22,4 @@ primary_region = "lhr"
 [mounts]
   source = "perfcheck_data"
   destination = "/data"
+  initial_size = "1gb"

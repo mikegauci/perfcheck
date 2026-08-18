@@ -1,0 +1,3 @@
+# Same-origin API when Go serves public/ (Docker, Fly, `hugo --minify`).
+[params]
+  apiBaseUrl = ''
