@@ -93,7 +93,7 @@
         <ol class="perfcheck-inventory">
           <li class="perfcheck-inventory__row">
             <h3 class="perfcheck-inventory__name">Dart Sass + BEM</h3>
-            <p class="perfcheck-inventory__body">One class vocabulary shared by Hugo and React. Autoprefixer on the production CSS. No Tailwind.</p>
+            <p class="perfcheck-inventory__body">One class vocabulary shared by Hugo and React. Stylelint enforces BEM names. Autoprefixer on the production CSS. No Tailwind.</p>
           </li>
           <li class="perfcheck-inventory__row">
             <h3 class="perfcheck-inventory__name">SQLite</h3>
@@ -101,7 +101,7 @@
           </li>
           <li class="perfcheck-inventory__row">
             <h3 class="perfcheck-inventory__name">Vitest + Go test</h3>
-            <p class="perfcheck-inventory__body">Typecheck, coverage, <code>go vet</code> and the race detector. HTML fetch uses <code>httptest</code> fixtures — CI never needs the network.</p>
+            <p class="perfcheck-inventory__body">Typecheck, ESLint, coverage, <code>go vet</code> and the race detector. HTML fetch uses <code>httptest</code> fixtures — CI never needs the network.</p>
           </li>
           <li class="perfcheck-inventory__row">
             <h3 class="perfcheck-inventory__name">Docker</h3>
@@ -114,6 +114,43 @@
           <li class="perfcheck-inventory__row">
             <h3 class="perfcheck-inventory__name">GitHub Actions</h3>
             <p class="perfcheck-inventory__body">Go, frontend and Hugo jobs on every push. Green on <code>main</code> deploys with <code>flyctl</code>.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="perfcheck-section" aria-labelledby="css-heading">
+      <div class="perfcheck-container">
+        <h2 id="css-heading" class="perfcheck-section__title">CSS layers</h2>
+        <p class="perfcheck-section__lead">Sass is organised the way a multidisciplinary team would split the work: tokens for Design, documents for Marketing, islands for frontend, data for Go.</p>
+        <ol class="perfcheck-spec">
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">01</span>
+            <div>
+              <h3 class="perfcheck-spec__title">SMACSS folders</h3>
+              <p class="perfcheck-spec__body"><code>abstracts</code> → <code>base</code> → <code>layout</code> → <code>components</code> in <code>assets/scss/main.scss</code>. Tokens and mixins first, then reset, then chrome, then modules.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">02</span>
+            <div>
+              <h3 class="perfcheck-spec__title">OOCSS structure vs skin</h3>
+              <p class="perfcheck-spec__body"><code>.perfcheck-button</code> is the structure. <code>--primary</code> and <code>--ghost</code> are skins. Same split on badges, alerts and meters.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">03</span>
+            <div>
+              <h3 class="perfcheck-spec__title">BEM naming</h3>
+              <p class="perfcheck-spec__body"><code>perfcheck-block__elem--mod</code>, shared by Hugo templates and React. Stylelint resolves nested <code>&amp;__elem</code> selectors so the pattern is enforced in source.</p>
+            </div>
+          </li>
+          <li class="perfcheck-spec__row">
+            <span class="perfcheck-spec__index">04</span>
+            <div>
+              <h3 class="perfcheck-spec__title">Who owns what</h3>
+              <p class="perfcheck-spec__body">Marketing owns <code>content/</code>. Design owns tokens in <code>assets/scss/abstracts/_tokens.scss</code>. Frontend owns the React islands. Go owns <code>/api</code>.</p>
+            </div>
           </li>
         </ol>
       </div>
