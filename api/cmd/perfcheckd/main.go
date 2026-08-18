@@ -18,6 +18,7 @@ func main() {
 	staticDir := flag.String("static", "", "Optional directory of Hugo public/ files to serve")
 	scorerMode := flag.String("scorer", "auto", "Scoring engine: auto, psi, fetch or mock")
 	cacheTTL := flag.Duration("cache-ttl", 15*time.Minute, "TTL for scoring cache")
+	dbPath := flag.String("db", "", "SQLite path (empty uses in-memory storage)")
 	flag.Parse()
 
 	scorer, err := audit.NewConfiguredScorer(audit.ScorerOptions{
@@ -29,7 +30,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	repo := storage.NewMemory(100)
+	repo, err := storage.Open(*dbPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if c, ok := repo.(interface{ Close() error }); ok {
+		defer c.Close()
+	}
+
 	svc := audit.NewService(repo, scorer)
 	handler := httpapi.NewRouter(httpapi.Options{
 		Service:    svc,
@@ -46,7 +54,7 @@ func main() {
 		IdleTimeout:       60 * time.Second,
 	}
 
-	log.Printf("perfcheckd listening on %s (cors=%q static=%q scorer=%s)", *addr, *corsOrigin, *staticDir, *scorerMode)
+	log.Printf("perfcheckd listening on %s (cors=%q static=%q scorer=%s db=%q)", *addr, *corsOrigin, *staticDir, *scorerMode, *dbPath)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
