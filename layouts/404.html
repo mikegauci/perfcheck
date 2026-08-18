@@ -1,0 +1,17 @@
+{{ define "main" }}
+  <section class="perfcheck-hero">
+    <div class="perfcheck-container perfcheck-hero__inner">
+      <div class="perfcheck-hero__copy">
+        <p class="perfcheck-hero__kicker">404</p>
+        <h1 class="perfcheck-hero__title">This page is not here</h1>
+        <p class="perfcheck-hero__lead">
+          The address does not match a PerfCheck page. The rest of the site is still there.
+        </p>
+        <div class="perfcheck-hero__actions">
+          <a class="perfcheck-button perfcheck-button--primary" href="{{ "/" | relURL }}">Back home</a>
+          <a class="perfcheck-button perfcheck-button--ghost" href="{{ "audit/" | relURL }}">Run an audit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

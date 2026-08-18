@@ -1,15 +1,23 @@
 {{- $desc := .Description | default site.Params.description -}}
 {{- $title := .Title | default site.Title -}}
 {{- if .IsHome -}}{{- $title = printf "%s — Website performance audits" site.Title -}}{{- end -}}
+{{- $og := "og.png" | absURL -}}
 <link rel="canonical" href="{{ .Permalink }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
-<meta name="twitter:card" content="summary">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="{{ $og }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ site.Title }} — website performance audits">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $title }}">
 <meta name="twitter:description" content="{{ $desc }}">
-{{- if .Params.noindex -}}
+<meta name="twitter:image" content="{{ $og }}">
+<meta name="twitter:image:alt" content="{{ site.Title }} — website performance audits">
+{{- if or .Params.noindex (eq .Kind "404") (eq .RelPermalink "/404.html") -}}
 <meta name="robots" content="noindex, nofollow">
 {{- end -}}
