@@ -1,0 +1,24 @@
+baseURL = 'http://localhost:1313/'
+languageCode = 'en-gb'
+title = 'PerfCheck'
+enableRobotsTXT = true
+canonifyURLs = false
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  description = 'Mock website performance, SEO and accessibility audits — a portfolio project demonstrating Hugo, Go and React.'
+  apiBaseUrl = 'http://localhost:8080'
+  author = 'mikegauci'
+
+[params.social]
+  github = 'https://github.com/mikegauci/perfcheck'
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[outputs]
+  home = ['HTML', 'RSS']
+  page = ['HTML']
+
+[minify]
+  minifyOutput = true
