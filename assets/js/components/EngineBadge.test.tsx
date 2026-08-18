@@ -3,13 +3,13 @@ import { render, screen } from '@testing-library/react';
 import { EngineBadge } from './EngineBadge';
 
 describe('EngineBadge', () => {
-  it('labels mock data', () => {
-    render(<EngineBadge engine="mock" />);
-    expect(screen.getByText(/simulated data/i)).toBeInTheDocument();
+  it('labels live fetch data', () => {
+    render(<EngineBadge engine="fetch" />);
+    expect(screen.getByText(/live page fetch/i)).toBeInTheDocument();
   });
 
-  it('labels PageSpeed data', () => {
-    render(<EngineBadge engine="psi" />);
-    expect(screen.getByText(/live pagespeed data/i)).toBeInTheDocument();
+  it('falls back to the raw engine name', () => {
+    render(<EngineBadge engine="unknown" />);
+    expect(screen.getByText('unknown')).toBeInTheDocument();
   });
 });

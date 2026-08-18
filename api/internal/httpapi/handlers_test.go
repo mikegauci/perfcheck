@@ -2,6 +2,7 @@ package httpapi
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -11,9 +12,18 @@ import (
 	"github.com/mikegauci/perfcheck/api/internal/storage"
 )
 
+type stubScorer struct{}
+
+func (stubScorer) Score(context.Context, string) (audit.Result, error) {
+	return audit.Result{
+		Engine: audit.EngineFetch,
+		Scores: audit.Scores{Overall: 80, Performance: 80, SEO: 80, Accessibility: 80},
+	}, nil
+}
+
 func testRouter() http.Handler {
 	repo := storage.NewMemory(50)
-	svc := audit.NewService(repo, audit.MockScorer{})
+	svc := audit.NewService(repo, stubScorer{})
 	return NewRouter(Options{Service: svc, CORSOrigin: "http://localhost:1313"})
 }
 
@@ -44,7 +54,7 @@ func TestCreateAndGetAudit(t *testing.T) {
 	if err := json.Unmarshal(rr.Body.Bytes(), &created); err != nil {
 		t.Fatal(err)
 	}
-	if created.ID == "" || created.Scores.Overall == 0 || created.Engine != audit.EngineMock {
+	if created.ID == "" || created.Scores.Overall == 0 || created.Engine != audit.EngineFetch {
 		t.Fatalf("unexpected audit: %#v", created)
 	}
 

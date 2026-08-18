@@ -22,7 +22,6 @@ export function Dashboard({ client }: DashboardProps) {
   const [state, setState] = useState<DashState>({ status: 'loading' });
   const [sort, setSort] = useState<SortKey>('newest');
   const [query, setQuery] = useState('');
-  const [engine, setEngine] = useState('all');
   const [visible, setVisible] = useState(10);
   const [reload, setReload] = useState(0);
 
@@ -56,9 +55,6 @@ export function Dashboard({ client }: DashboardProps) {
     if (q) {
       items = items.filter((a) => a.url.toLowerCase().includes(q));
     }
-    if (engine !== 'all') {
-      items = items.filter((a) => a.engine === engine);
-    }
     const sorted = [...items];
     sorted.sort((a, b) => {
       switch (sort) {
@@ -74,7 +70,7 @@ export function Dashboard({ client }: DashboardProps) {
       }
     });
     return sorted;
-  }, [state, sort, query, engine]);
+  }, [state, sort, query]);
 
   if (state.status === 'loading') {
     return (
@@ -145,22 +141,6 @@ export function Dashboard({ client }: DashboardProps) {
             <option value="oldest">Oldest first</option>
             <option value="score-desc">Highest score</option>
             <option value="score-asc">Lowest score</option>
-          </select>
-        </div>
-        <div>
-          <label className="perfcheck-form__label" htmlFor="dash-engine">
-            Engine
-          </label>
-          <select
-            id="dash-engine"
-            className="perfcheck-form__input"
-            value={engine}
-            onChange={(e) => setEngine(e.target.value)}
-          >
-            <option value="all">All engines</option>
-            <option value="psi">PageSpeed</option>
-            <option value="fetch">Fetch</option>
-            <option value="mock">Simulated</option>
           </select>
         </div>
       </div>

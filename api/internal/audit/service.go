@@ -21,7 +21,7 @@ type Service struct {
 // NewService wires a Service with the given repository and scorer.
 func NewService(repo Repository, scorer Scorer) *Service {
 	if scorer == nil {
-		scorer = MockScorer{}
+		scorer = FetchScorer{}
 	}
 	return &Service{
 		repo:   repo,

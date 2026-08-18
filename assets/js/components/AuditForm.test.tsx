@@ -9,7 +9,7 @@ const sample: Audit = {
   id: '1',
   url: 'https://example.com',
   createdAt: '2026-08-18T12:00:00Z',
-  engine: 'mock',
+  engine: 'fetch',
   scores: { overall: 80, performance: 72, seo: 88, accessibility: 74 },
   recommendations: [
     {

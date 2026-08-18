@@ -7,7 +7,7 @@ type RecommendationListProps = {
 export function RecommendationList({ items }: RecommendationListProps) {
   if (items.length === 0) {
     return (
-      <p role="status">No recommendations — this mock audit looks healthy.</p>
+      <p role="status">No recommendations — this audit looks healthy.</p>
     );
   }
 

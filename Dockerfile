@@ -33,4 +33,4 @@ COPY --from=hugo /src/public /app/public
 COPY --from=api /perfcheckd /app/perfcheckd
 EXPOSE 8080
 VOLUME ["/data"]
-ENTRYPOINT ["/app/perfcheckd", "-addr", ":8080", "-cors-origin", "", "-static", "/app/public", "-db", "/data/perfcheck.db", "-scorer", "auto"]
+ENTRYPOINT ["/app/perfcheckd", "-addr", ":8080", "-cors-origin", "", "-static", "/app/public", "-db", "/data/perfcheck.db"]

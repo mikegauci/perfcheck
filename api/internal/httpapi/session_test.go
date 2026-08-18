@@ -15,7 +15,7 @@ import (
 func TestListRequiresSessionWhenConfigured(t *testing.T) {
 	t.Parallel()
 	repo := storage.NewMemory(10)
-	svc := audit.NewService(repo, audit.MockScorer{})
+	svc := audit.NewService(repo, stubScorer{})
 	mgr := session.New("unit-test-secret-unit-test-secret", "letmein", false)
 	router := NewRouter(Options{Service: svc, Sessions: mgr, CORSOrigin: "http://localhost:1313"})
 

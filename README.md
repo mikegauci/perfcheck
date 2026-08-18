@@ -2,7 +2,7 @@
 
 Website performance, SEO and accessibility audits. A portfolio project demonstrating **Hugo Extended**, **Go**, **React**, **TypeScript** and **SASS/BEM**.
 
-Scores come from a pluggable `Scorer` chain: Google PageSpeed Insights first, a live HTML fetch second, and a deterministic mock last. Every result is labelled with the engine that produced it.
+Scores come from one live HTML fetch plus table-driven signals. Every result is labelled with the engine that produced it (`fetch`).
 
 ## Stack
 
@@ -16,15 +16,13 @@ Scores come from a pluggable `Scorer` chain: Google PageSpeed Insights first, a 
 | Frontend tests | Vitest + React Testing Library |
 | Backend tests | Go `testing` package |
 
-## Scoring engines
+## Scoring
 
-| Engine | Data source | Network | When it runs |
-| --- | --- | --- | --- |
-| `psi` | Google PageSpeed Insights (Lighthouse lab) | PSI API | First choice in `auto` |
-| `fetch` | One HTML GET + `x/net/html` signals | Target URL | PSI disabled or error |
-| `mock` | Deterministic FNV hash of the URL | None | Last fallback so demos never hard-fail |
+| Engine | Data source | Network |
+| --- | --- | --- |
+| `fetch` | One HTML GET + `x/net/html` signals | Target URL |
 
-Every audit response includes `engine` so the UI can show provenance. Details: [docs/scoring.md](docs/scoring.md).
+Details: [docs/scoring.md](docs/scoring.md).
 
 ## Architecture
 
@@ -35,7 +33,7 @@ Browser
   └─ fetch ──► Go API (/api/v1/audits)
                   ├─ validate URL
                   ├─ TTL cache
-                  ├─ ChainScorer: PSI → fetch → mock
+                  ├─ FetchScorer (live HTML GET)
                   ├─ recommendation rules
                   └─ Repository (memory or SQLite)
 ```
@@ -51,8 +49,6 @@ Browser
 - Dart Sass on `PATH`
 - Node.js ≥ 20
 
-Optional: `PSI_API_KEY` for a higher PageSpeed Insights quota.
-
 ## Quick start
 
 ```bash
@@ -67,13 +63,10 @@ Useful flags:
 
 ```bash
 cd api && go run ./cmd/perfcheckd \
-  -scorer=auto \
   -db ../data/perfcheck.db \
   -dashboard-password=secret \
   -cors-origin=http://localhost:1313
 ```
-
-`-scorer` is `auto` (default), `psi`, `fetch` or `mock`.
 
 Production-style single process (after `hugo --minify`):
 
@@ -88,7 +81,7 @@ make test
 make typecheck
 ```
 
-Network is never required for tests. PSI and HTML fetch use `httptest` fixtures.
+Network is never required for tests. HTML fetch uses `httptest` fixtures.
 
 ## API
 
@@ -125,14 +118,13 @@ No HTTP framework, no ORM, no CSS framework, no client state library.
 
 | Decision | Choice | Why |
 | --- | --- | --- |
-| Scoring | `Scorer` interface + chain | DIP; mock/fetch/PSI are drop-in |
-| Provenance | `engine` on every audit | Fake numbers without a label would be dishonest |
+| Scoring | `Scorer` interface + fetch implementation | DIP; a live GET is the whole product |
+| Provenance | `engine` on every audit | Label the data source even with one engine |
 | Persistence | SQLite behind `Repository` | Original interface paid off; empty `-db` stays in-memory |
 | Bundling | Hugo `js.Build` (esbuild) | One build pipeline |
 | CSS | Dart Sass + BEM, shared with React | One class vocabulary |
 | Router | Go 1.22 `ServeMux` | No framework |
 | Dashboard auth | Optional HMAC cookie | Off by default for local demos |
-| Real lab data | PageSpeed Insights API | No Chrome in the image |
 
 See [docs/scoring.md](docs/scoring.md) and [docs/sqlite.md](docs/sqlite.md).
 

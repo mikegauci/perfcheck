@@ -38,7 +38,7 @@ var _ Repository = (*fakeRepo)(nil)
 func TestServiceCreate(t *testing.T) {
 	t.Parallel()
 	repo := &fakeRepo{}
-	svc := NewService(repo, MockScorer{})
+	svc := NewService(repo, stubScorer{})
 	svc.now = func() time.Time { return time.Date(2026, 8, 18, 12, 0, 0, 0, time.UTC) }
 	svc.idFn = func() (string, error) { return "fixedid01", nil }
 
@@ -49,8 +49,8 @@ func TestServiceCreate(t *testing.T) {
 	if a.ID != "fixedid01" || a.URL != "https://example.com" {
 		t.Fatalf("unexpected audit: %#v", a)
 	}
-	if a.Engine != EngineMock {
-		t.Fatalf("engine=%q want %q", a.Engine, EngineMock)
+	if a.Engine != EngineFetch {
+		t.Fatalf("engine=%q want %q", a.Engine, EngineFetch)
 	}
 	if len(repo.items) != 1 {
 		t.Fatalf("expected save, got %d", len(repo.items))
@@ -59,7 +59,7 @@ func TestServiceCreate(t *testing.T) {
 
 func TestServiceCreateInvalid(t *testing.T) {
 	t.Parallel()
-	svc := NewService(&fakeRepo{}, MockScorer{})
+	svc := NewService(&fakeRepo{}, stubScorer{})
 	_, err := svc.Create(context.Background(), "not-a-url")
 	if err != validate.ErrInvalidURL {
 		t.Fatalf("want ErrInvalidURL, got %v", err)

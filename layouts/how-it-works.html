@@ -7,23 +7,15 @@
           <h1 class="perfcheck-hero__title">{{ .Title }}</h1>
           <p class="perfcheck-hero__lead">
             You submit a URL. Hugo has already sent the document. React mounts only where it must.
-            The Go API validates the address, runs a scorer chain, and stores the result — labelled with the engine that produced it.
+            The Go API validates the address, fetches the live page, and stores the result.
           </p>
         </div>
         <aside class="perfcheck-specimen" aria-hidden="true">
-          <p class="perfcheck-specimen__kicker">Scorer chain</p>
+          <p class="perfcheck-specimen__kicker">Live fetch</p>
           <ol class="perfcheck-method__stack">
             <li>
-              <span class="perfcheck-badge perfcheck-badge--psi">psi</span>
-              <span>PageSpeed first</span>
-            </li>
-            <li>
               <span class="perfcheck-badge perfcheck-badge--fetch">fetch</span>
-              <span>Live HTML if PSI fails</span>
-            </li>
-            <li>
-              <span class="perfcheck-badge perfcheck-badge--mock">mock</span>
-              <span>Deterministic fallback</span>
+              <span>One HTML GET, then HTML signals</span>
             </li>
           </ol>
         </aside>
@@ -63,7 +55,7 @@
             {{ partial "icon.html" "api" }}
             <div>
               <h3 class="perfcheck-steps__title">Go scores the URL</h3>
-              <p class="perfcheck-steps__body">The API validates the address, then tries PageSpeed Insights, a live HTML fetch, and a mock — in that order. The first success wins.</p>
+              <p class="perfcheck-steps__body">The API validates the address, fetches the live HTML, and scores table-driven signals: HTTPS, TTFB, metadata, headings, alt text and labels.</p>
             </div>
           </li>
           <li class="perfcheck-steps__row">
@@ -100,7 +92,7 @@
                       <ol>
                         <li><span class="perfcheck-schematic__node">Validate URL</span></li>
                         <li><span class="perfcheck-schematic__node">TTL cache</span></li>
-                        <li><span class="perfcheck-schematic__node">ChainScorer · PSI → fetch → mock</span></li>
+                        <li><span class="perfcheck-schematic__node">FetchScorer · live HTML GET</span></li>
                         <li><span class="perfcheck-schematic__node">Recommendation rules</span></li>
                         <li><span class="perfcheck-schematic__node">Repository · memory or SQLite</span></li>
                       </ol>
@@ -116,25 +108,13 @@
 
     <section class="perfcheck-section" aria-labelledby="engines-heading">
       <div class="perfcheck-container">
-        <h2 id="engines-heading" class="perfcheck-section__title">Scoring engines</h2>
-        <p class="perfcheck-section__lead">PerfCheck never pretends a number is more real than it is. The badge on each result is the provenance.</p>
+        <h2 id="engines-heading" class="perfcheck-section__title">How scores are produced</h2>
+        <p class="perfcheck-section__lead">One HTTP GET, HTML inspection, table-driven deductions. No Lighthouse, no synthetic numbers.</p>
         <div class="perfcheck-chain">
-          <article class="perfcheck-chain__item">
-            <span class="perfcheck-badge perfcheck-badge--psi">psi</span>
-            <h3 class="perfcheck-chain__title">PageSpeed Insights</h3>
-            <p class="perfcheck-chain__body">Lighthouse lab scores, mobile strategy. First choice when <code>auto</code> is on.</p>
-          </article>
-          <span class="perfcheck-chain__rule" aria-hidden="true">→</span>
           <article class="perfcheck-chain__item">
             <span class="perfcheck-badge perfcheck-badge--fetch">fetch</span>
             <h3 class="perfcheck-chain__title">Live page fetch</h3>
-            <p class="perfcheck-chain__body">One HTTP GET and HTML inspection. Runs when PSI is disabled or errors.</p>
-          </article>
-          <span class="perfcheck-chain__rule" aria-hidden="true">→</span>
-          <article class="perfcheck-chain__item">
-            <span class="perfcheck-badge perfcheck-badge--mock">mock</span>
-            <h3 class="perfcheck-chain__title">Deterministic mock</h3>
-            <p class="perfcheck-chain__body">FNV hash of the URL. Same input, same scores. Last fallback so a demo never hard-fails.</p>
+            <p class="perfcheck-chain__body">One HTTP GET and HTML inspection. HTTPS, TTFB, bytes, title, meta, headings, alt text and labels become category scores.</p>
           </article>
         </div>
       </div>

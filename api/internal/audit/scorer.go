@@ -2,12 +2,8 @@ package audit
 
 import "context"
 
-// Engine identifiers returned on every audit so the UI can label provenance.
-const (
-	EngineMock  = "mock"
-	EngineFetch = "fetch"
-	EnginePSI   = "psi"
-)
+// EngineFetch is the identifier for the live HTML fetch scorer.
+const EngineFetch = "fetch"
 
 // Scorer produces scores for a normalised URL.
 type Scorer interface {
@@ -21,8 +17,7 @@ type Result struct {
 	Signals *Signals
 }
 
-// Signals are optional evidence collected by live engines.
-// MockScorer leaves this nil.
+// Signals are evidence collected from a live HTML fetch.
 type Signals struct {
 	StatusCode         int    `json:"statusCode,omitempty"`
 	TTFBMs             int64  `json:"ttfbMs,omitempty"`
@@ -46,5 +41,4 @@ type Signals struct {
 	ScriptCount        int    `json:"scriptCount"`
 	StylesheetCount    int    `json:"stylesheetCount"`
 	InlineStyleBytes   int    `json:"inlineStyleBytes"`
-	PSIStrategy        string `json:"psiStrategy,omitempty"`
 }

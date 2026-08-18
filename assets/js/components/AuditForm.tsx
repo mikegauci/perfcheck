@@ -108,7 +108,7 @@ export function AuditForm({ client }: AuditFormProps) {
       <div role="status" aria-live="polite" className="perfcheck-audit__live">
         {state.status === 'submitting' ? (
           <p>
-            Running audit… {state.elapsed}s elapsed. Live engines can take up to a minute.
+            Running audit… {state.elapsed}s elapsed. A live fetch usually finishes within 10 seconds.
           </p>
         ) : null}
         {state.status === 'error' && state.error.field !== 'url' ? (

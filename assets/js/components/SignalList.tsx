@@ -42,7 +42,6 @@ export function SignalList({ signals }: SignalListProps) {
         <Row term="Inputs without label" value={String(signals.inputsWithoutLabel)} />
         <Row term="Scripts" value={String(signals.scriptCount)} />
         <Row term="Stylesheets" value={String(signals.stylesheetCount)} />
-        {signals.psiStrategy ? <Row term="PSI strategy" value={signals.psiStrategy} /> : null}
       </dl>
     </details>
   );

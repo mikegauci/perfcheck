@@ -4,7 +4,7 @@ description: "Get in touch about PerfCheck or related frontend work."
 layout: "page"
 ---
 
-This is a portfolio demo, not a live product. If you want to talk about the architecture, the Hugo/Go learning path, or frontend engineering more broadly, reach out via GitHub.
+This is a demonstration, not a production auditing product. If you want to talk about the architecture, the Hugo/Go learning path, or frontend engineering more broadly, reach out via GitHub.
 
 {{< rawhtml >}}
 <p>

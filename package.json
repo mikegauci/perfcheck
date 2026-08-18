@@ -2,7 +2,7 @@
   "name": "perfcheck",
   "version": "0.1.0",
   "private": true,
-  "description": "PerfCheck — Hugo + Go + React portfolio project for mock website audits",
+  "description": "PerfCheck — Hugo + Go + React portfolio project for website audits",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

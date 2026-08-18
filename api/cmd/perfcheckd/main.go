@@ -17,21 +17,15 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	corsOrigin := flag.String("cors-origin", "http://localhost:1313", "Allowed CORS origin (empty disables CORS)")
 	staticDir := flag.String("static", "", "Optional directory of Hugo public/ files to serve")
-	scorerMode := flag.String("scorer", "auto", "Scoring engine: auto, psi, fetch or mock")
 	cacheTTL := flag.Duration("cache-ttl", 15*time.Minute, "TTL for scoring cache")
 	dbPath := flag.String("db", "", "SQLite path (empty uses in-memory storage)")
 	dashboardPassword := flag.String("dashboard-password", "", "Optional password protecting GET /api/v1/audits")
 	sessionSecret := flag.String("session-secret", os.Getenv("PERFCHECK_SESSION_SECRET"), "HMAC secret for session cookies")
 	flag.Parse()
 
-	scorer, err := audit.NewConfiguredScorer(audit.ScorerOptions{
-		Mode:     *scorerMode,
-		PSIKey:   os.Getenv("PSI_API_KEY"),
+	scorer := audit.NewConfiguredScorer(audit.ScorerOptions{
 		CacheTTL: *cacheTTL,
 	})
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	repo, err := storage.Open(*dbPath)
 	if err != nil {
@@ -55,11 +49,11 @@ func main() {
 		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       15 * time.Second,
-		WriteTimeout:      90 * time.Second,
+		WriteTimeout:      20 * time.Second,
 		IdleTimeout:       60 * time.Second,
 	}
 
-	log.Printf("perfcheckd listening on %s (cors=%q static=%q scorer=%s db=%q)", *addr, *corsOrigin, *staticDir, *scorerMode, *dbPath)
+	log.Printf("perfcheckd listening on %s (cors=%q static=%q db=%q)", *addr, *corsOrigin, *staticDir, *dbPath)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}

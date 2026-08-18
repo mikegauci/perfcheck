@@ -8,4 +8,4 @@ sitemap:
   disable: true
 ---
 
-Previous audits from this session. History lives in memory and resets when the API restarts.
+Previous audits from this session. History lives in memory or SQLite, behind a Repository interface.

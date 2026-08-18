@@ -17,7 +17,7 @@ export type Audit = {
   id: string;
   url: string;
   createdAt: string;
-  engine: 'mock' | 'fetch' | 'psi' | string;
+  engine: 'fetch' | string;
   scores: Scores;
   signals?: Signals;
   recommendations: Recommendation[];
@@ -46,7 +46,6 @@ export type Signals = {
   scriptCount: number;
   stylesheetCount: number;
   inlineStyleBytes: number;
-  psiStrategy?: string;
 };
 
 export type AuditListResponse = {

@@ -11,7 +11,7 @@ disableKinds = ['taxonomy', 'term']
   weight = 1
 
 [params]
-  description = 'Mock website performance, SEO and accessibility audits — a portfolio project demonstrating Hugo, Go and React.'
+  description = 'Website performance, SEO and accessibility audits built with Hugo, Go and React.'
   apiBaseUrl = 'http://localhost:8080'
   author = 'mikegauci'
 

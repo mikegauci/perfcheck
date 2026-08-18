@@ -14,20 +14,9 @@
   background: $color-surface;
   color: $color-brand-strong;
 
-  &--mock {
-    background: #f4efe6;
-    color: $color-ink-muted;
-  }
-
   &--fetch {
     background: $color-brand-soft;
     border-color: $color-brand;
-  }
-
-  &--psi {
-    background: #e8f1fb;
-    color: #1849a9;
-    border-color: #1849a9;
   }
 }
 

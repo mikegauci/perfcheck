@@ -12,7 +12,7 @@ func sampleAudit(id string) audit.Audit {
 		ID:        id,
 		URL:       "https://example.com/" + id,
 		CreatedAt: time.Date(2026, 8, 18, 12, 0, 0, 0, time.UTC).Add(time.Duration(id[len(id)-1]) * time.Second),
-		Engine:    audit.EngineMock,
+		Engine:    audit.EngineFetch,
 		Scores:    audit.Scores{Overall: 70, Performance: 70, SEO: 70, Accessibility: 70},
 		Recommendations: []audit.Recommendation{
 			{ID: "img-format", Category: "performance", Severity: "high", Title: "Images", Detail: "Use AVIF"},

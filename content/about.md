@@ -15,4 +15,4 @@ PerfCheck is a portfolio project. It exists to show that I can pick up **Hugo** 
 
 ## What it is not
 
-It is not a production auditing product. Scores are mock and deterministic. The dashboard has no authentication. There is no database. Those omissions are deliberate — each is listed under “what I’d add next” in the project documentation.
+It is not a production auditing product. Scores come from one live HTML fetch and table-driven signals — not Lighthouse or real-user monitoring. The dashboard can sit behind an optional password. History lives in memory or SQLite. Those limits are deliberate — each is listed under “what I’d add next” in the project documentation.

@@ -9,7 +9,7 @@ const audit = (url: string, overall: number): Audit => ({
   id: overall.toString(),
   url,
   createdAt: '2026-08-18T12:00:00Z',
-  engine: 'mock',
+  engine: 'fetch',
   scores: { overall, performance: overall, seo: overall, accessibility: overall },
   recommendations: [],
 });
