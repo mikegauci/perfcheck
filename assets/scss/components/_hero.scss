@@ -1,0 +1,35 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-hero {
+  padding-block: $space-8 $space-7;
+  background:
+    radial-gradient(circle at top right, rgb(15 110 86 / 12%), transparent 40%),
+    $color-bg;
+
+  &__eyebrow {
+    display: inline-block;
+    margin-bottom: $space-3;
+    padding: $space-1 $space-3;
+    border-radius: 999px;
+    background: $color-brand-soft;
+    color: $color-brand-strong;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  &__title {
+    max-width: 16ch;
+  }
+
+  &__lead {
+    max-width: 40rem;
+    font-size: 1.125rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    margin-top: $space-5;
+  }
+}

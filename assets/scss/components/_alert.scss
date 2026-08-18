@@ -1,0 +1,29 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-alert {
+  padding: $space-4;
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+  background: $color-surface;
+
+  &--error {
+    border-color: $color-danger;
+    background: $color-danger-soft;
+    color: $color-danger;
+  }
+
+  &--info {
+    border-color: $color-brand;
+    background: $color-brand-soft;
+    color: $color-brand-strong;
+  }
+
+  &__title {
+    margin: 0 0 $space-2;
+    font-weight: 700;
+  }
+
+  &__body {
+    margin: 0;
+  }
+}

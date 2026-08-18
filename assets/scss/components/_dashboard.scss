@@ -1,0 +1,64 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-dashboard {
+  display: grid;
+  gap: $space-5;
+
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    align-items: end;
+  }
+
+  &__list {
+    display: grid;
+    gap: $space-3;
+  }
+
+  &__item {
+    display: grid;
+    gap: $space-2;
+    padding: $space-4;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+  }
+
+  &__url {
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  &__scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    font-size: 0.875rem;
+    color: $color-ink-muted;
+  }
+
+  &__skeleton {
+    height: 5.5rem;
+    border-radius: $radius-md;
+    background: linear-gradient(90deg, $color-border, $color-surface, $color-border);
+    background-size: 200% 100%;
+    animation: perfcheck-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes perfcheck-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perfcheck-dashboard__skeleton {
+    animation: none;
+  }
+}

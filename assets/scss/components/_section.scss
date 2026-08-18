@@ -1,0 +1,14 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-section {
+  padding-block: $space-7;
+
+  &__title {
+    margin-bottom: $space-5;
+  }
+
+  &__lead {
+    max-width: 40rem;
+    margin-bottom: $space-6;
+  }
+}

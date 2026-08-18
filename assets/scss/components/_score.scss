@@ -1,0 +1,88 @@
+@use '../abstracts/tokens' as *;
+@use '../abstracts/breakpoints' as *;
+
+.perfcheck-score {
+  display: grid;
+  gap: $space-5;
+
+  &__summary {
+    display: grid;
+    gap: $space-4;
+
+    @include up($bp-md) {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+  }
+
+  &__gauges {
+    display: grid;
+    gap: $space-4;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  }
+
+  &__gauge {
+    display: grid;
+    justify-items: center;
+    gap: $space-2;
+    text-align: center;
+  }
+
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-ink;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    color: $color-ink-muted;
+  }
+
+  &__band {
+    font-size: 0.8125rem;
+    font-weight: 600;
+
+    &--good {
+      color: $color-success;
+    }
+
+    &--needs-work {
+      color: $color-warning;
+    }
+
+    &--poor {
+      color: $color-danger;
+    }
+  }
+}
+
+.perfcheck-recommendations {
+  display: grid;
+  gap: $space-3;
+
+  &__item {
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    padding: $space-4;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+    margin-bottom: $space-2;
+    font-size: 0.8125rem;
+    color: $color-ink-muted;
+  }
+
+  &__title {
+    margin: 0 0 $space-2;
+    font-size: 1.0625rem;
+  }
+
+  &__detail {
+    margin: 0;
+  }
+}

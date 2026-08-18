@@ -1,0 +1,28 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  box-shadow: $shadow-sm;
+
+  &--featured {
+    border-color: $color-brand;
+    box-shadow: $shadow-md;
+  }
+
+  &__title {
+    margin-bottom: $space-2;
+  }
+
+  &__body {
+    margin: 0;
+  }
+
+  &__meta {
+    margin: $space-3 0 0;
+    font-size: 0.875rem;
+    color: $color-ink-muted;
+  }
+}

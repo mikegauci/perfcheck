@@ -1,0 +1,42 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-form {
+  display: grid;
+  gap: $space-4;
+  max-width: 36rem;
+
+  &__label {
+    display: block;
+    margin-bottom: $space-2;
+    font-weight: 600;
+  }
+
+  &__input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: $space-2 $space-3;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    background: $color-surface;
+
+    &[aria-invalid='true'] {
+      border-color: $color-danger;
+    }
+  }
+
+  &__hint,
+  &__error {
+    margin: $space-2 0 0;
+    font-size: 0.875rem;
+  }
+
+  &__error {
+    color: $color-danger;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+  }
+}
