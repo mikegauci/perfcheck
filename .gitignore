@@ -28,7 +28,8 @@ api/bin/
 .env.*
 !.env.example
 
-# Test / build artefacts
-dist/
-tmp/
-*.log
+# Local SQLite
+*.db
+*.db-wal
+*.db-shm
+data/
