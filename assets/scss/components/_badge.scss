@@ -1,0 +1,67 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-3;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: $color-brand-soft;
+  color: $color-brand-strong;
+
+  &--mock {
+    background: #f4efe6;
+    color: $color-ink-muted;
+  }
+
+  &--fetch {
+    background: $color-brand-soft;
+  }
+
+  &--psi {
+    background: #e8f1fb;
+    color: #1849a9;
+  }
+}
+
+.perfcheck-signals {
+  margin: $space-5 0;
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  dl {
+    margin: $space-3 0 0;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: $space-3;
+    padding-block: $space-2;
+    border-bottom: 1px solid $color-border;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: $color-ink-muted;
+  }
+}
+
+.perfcheck-compare {
+  display: grid;
+  gap: $space-5;
+  margin-top: $space-6;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
