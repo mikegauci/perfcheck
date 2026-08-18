@@ -161,6 +161,23 @@
     color: $color-ink-muted;
   }
 
+  &__severity {
+    font-weight: 500;
+
+    &--low {
+      color: $color-success;
+    }
+
+    &--medium {
+      color: #c47f00;
+    }
+
+    &--high,
+    &--critical {
+      color: $color-danger;
+    }
+  }
+
   &__title {
     margin: 0 0 $space-2;
     font-size: 1.0625rem;
