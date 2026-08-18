@@ -69,6 +69,7 @@ jobs:
     needs: [go, frontend, hugo]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment: main
     concurrency: fly-deploy
     steps:
       - uses: actions/checkout@v4
