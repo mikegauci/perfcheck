@@ -1,0 +1,28 @@
+@use '../abstracts/tokens' as *;
+@use '../abstracts/mixins' as *;
+
+.perfcheck-skip-link {
+  position: absolute;
+  left: $space-4;
+  top: $space-4;
+  z-index: 1000;
+  padding: $space-2 $space-4;
+  background: $color-ink;
+  color: $color-surface;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: translateY(0);
+    @include focus-ring;
+  }
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+.perfcheck-sr-only {
+  @include visually-hidden;
+}

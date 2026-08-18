@@ -1,0 +1,16 @@
+$bp-sm: 36rem;  // ~576px
+$bp-md: 48rem;  // ~768px
+$bp-lg: 64rem;  // ~1024px
+$bp-xl: 80rem;  // ~1280px
+
+@mixin up($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin down($breakpoint) {
+  @media (max-width: calc(#{$breakpoint} - 0.02rem)) {
+    @content;
+  }
+}
