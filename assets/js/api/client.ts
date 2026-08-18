@@ -20,7 +20,8 @@ async function request<T>(
   try {
     const response = await fetchImpl(`${baseUrl}${path}`, {
       ...init,
-      signal: controller.signal,
+      signal: init.signal ?? controller.signal,
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         ...(init.body ? { 'Content-Type': 'application/json' } : {}),
@@ -80,6 +81,23 @@ export function createClient(options: ClientOptions = {}) {
     },
     getAudit(id: string) {
       return request<Audit>(`/api/v1/audits/${id}`, { method: 'GET' }, options);
+    },
+    login(password: string) {
+      return request<{ ok: boolean }>(
+        '/api/v1/session',
+        { method: 'POST', body: JSON.stringify({ password }) },
+        options,
+      );
+    },
+    logout() {
+      return request<null>('/api/v1/session', { method: 'DELETE' }, options);
+    },
+    session() {
+      return request<{ authRequired: boolean; authenticated: boolean }>(
+        '/api/v1/session',
+        { method: 'GET' },
+        options,
+      );
     },
   };
 }

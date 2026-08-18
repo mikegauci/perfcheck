@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ApiClient } from '../api/client';
 import { ApiError, type Audit } from '../api/types';
 import { Alert } from './Alert';
+import { LoginForm } from './LoginForm';
 
 type DashboardProps = {
   client: ApiClient;
@@ -9,6 +10,7 @@ type DashboardProps = {
 
 type DashState =
   | { status: 'loading' }
+  | { status: 'auth' }
   | { status: 'empty' }
   | { status: 'ready'; items: Audit[] }
   | { status: 'error'; message: string };
@@ -19,29 +21,30 @@ export function Dashboard({ client }: DashboardProps) {
   const [state, setState] = useState<DashState>({ status: 'loading' });
   const [sort, setSort] = useState<SortKey>('newest');
   const [query, setQuery] = useState('');
+  const [reload, setReload] = useState(0);
+
+  const load = useCallback(async () => {
+    setState({ status: 'loading' });
+    try {
+      const res = await client.listAudits(50);
+      if (res.items.length === 0) {
+        setState({ status: 'empty' });
+      } else {
+        setState({ status: 'ready', items: res.items });
+      }
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        setState({ status: 'auth' });
+        return;
+      }
+      const message = err instanceof ApiError ? err.message : 'Could not load audits.';
+      setState({ status: 'error', message });
+    }
+  }, [client]);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await client.listAudits(50);
-        if (cancelled) return;
-        if (res.items.length === 0) {
-          setState({ status: 'empty' });
-        } else {
-          setState({ status: 'ready', items: res.items });
-        }
-      } catch (err) {
-        if (cancelled) return;
-        const message =
-          err instanceof ApiError ? err.message : 'Could not load audits.';
-        setState({ status: 'error', message });
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [client]);
+    void load();
+  }, [load, reload]);
 
   const filtered = useMemo(() => {
     if (state.status !== 'ready') return [];
@@ -73,6 +76,17 @@ export function Dashboard({ client }: DashboardProps) {
         <div className="perfcheck-dashboard__skeleton" />
         <div className="perfcheck-dashboard__skeleton" />
         <p className="perfcheck-sr-only">Loading audits…</p>
+      </div>
+    );
+  }
+
+  if (state.status === 'auth') {
+    return (
+      <div>
+        <Alert title="Sign in required" variant="info">
+          This dashboard is protected. Enter the password configured on the API.
+        </Alert>
+        <LoginForm client={client} onSuccess={() => setReload((n) => n + 1)} />
       </div>
     );
   }

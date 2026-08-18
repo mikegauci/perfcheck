@@ -57,7 +57,7 @@ export type ApiErrorCode =
   | 'invalid_url'
   | 'invalid_json'
   | 'not_found'
-  | 'rate_limited'
+  | 'unauthorized'
   | 'internal'
   | 'network'
   | 'timeout'
