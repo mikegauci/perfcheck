@@ -1,0 +1,108 @@
+@use '../abstracts/tokens' as *;
+@use '../abstracts/breakpoints' as *;
+@use '../abstracts/mixins' as *;
+
+.perfcheck-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(247 245 241 / 92%);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $color-border;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-4;
+    min-height: 4rem;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  &__mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: $radius-sm;
+    background: $color-brand;
+    color: $color-surface;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  &__name {
+    font-size: 1.125rem;
+  }
+
+  &__toggle {
+    @include visually-hidden;
+
+    &:checked ~ .perfcheck-header__nav {
+      display: block;
+    }
+  }
+
+  &__toggle-label {
+    display: inline-flex;
+    align-items: center;
+    padding: $space-2 $space-3;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    background: $color-surface;
+    cursor: pointer;
+
+    @include up($bp-md) {
+      display: none;
+    }
+  }
+
+  &__nav {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: $color-surface;
+    border-bottom: 1px solid $color-border;
+    padding: $space-4;
+
+    @include up($bp-md) {
+      display: block;
+      position: static;
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+
+    @include up($bp-md) {
+      flex-direction: row;
+      align-items: center;
+      gap: $space-5;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-ink-muted;
+    font-weight: 500;
+
+    &:hover,
+    &--active {
+      color: $color-brand;
+    }
+  }
+}

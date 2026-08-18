@@ -1,0 +1,6 @@
+@use '../abstracts/tokens' as *;
+
+.perfcheck-container {
+  width: min(100% - (#{$space-5} * 2), #{$max-width});
+  margin-inline: auto;
+}

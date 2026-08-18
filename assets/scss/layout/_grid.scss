@@ -1,0 +1,12 @@
+@use '../abstracts/tokens' as *;
+@use '../abstracts/breakpoints' as *;
+
+.perfcheck-grid {
+  display: grid;
+  gap: $space-5;
+  grid-template-columns: 1fr;
+
+  @include up($bp-md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

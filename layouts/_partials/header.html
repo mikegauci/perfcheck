@@ -1,0 +1,38 @@
+<header class="perfcheck-header">
+  <div class="perfcheck-container perfcheck-header__inner">
+    <a class="perfcheck-header__brand" href="{{ "/" | relURL }}">
+      <span class="perfcheck-header__mark" aria-hidden="true">PC</span>
+      <span class="perfcheck-header__name">{{ site.Title }}</span>
+    </a>
+
+    <input
+      type="checkbox"
+      id="perfcheck-nav-toggle"
+      class="perfcheck-header__toggle"
+      aria-controls="perfcheck-nav"
+    >
+    <label for="perfcheck-nav-toggle" class="perfcheck-header__toggle-label">
+      <span class="perfcheck-header__toggle-text">Menu</span>
+    </label>
+
+    <nav id="perfcheck-nav" class="perfcheck-header__nav" aria-label="Primary">
+      <ul class="perfcheck-header__list">
+        <li class="perfcheck-header__item">
+          <a class="perfcheck-header__link{{ if eq .RelPermalink "/how-it-works/" }} perfcheck-header__link--active{{ end }}" href="{{ "how-it-works/" | relURL }}">How it works</a>
+        </li>
+        <li class="perfcheck-header__item">
+          <a class="perfcheck-header__link{{ if eq .RelPermalink "/about/" }} perfcheck-header__link--active{{ end }}" href="{{ "about/" | relURL }}">About</a>
+        </li>
+        <li class="perfcheck-header__item">
+          <a class="perfcheck-header__link{{ if eq .RelPermalink "/audit/" }} perfcheck-header__link--active{{ end }}" href="{{ "audit/" | relURL }}">Run audit</a>
+        </li>
+        <li class="perfcheck-header__item">
+          <a class="perfcheck-header__link{{ if eq .RelPermalink "/dashboard/" }} perfcheck-header__link--active{{ end }}" href="{{ "dashboard/" | relURL }}">Dashboard</a>
+        </li>
+        <li class="perfcheck-header__item">
+          <a class="perfcheck-header__link{{ if eq .RelPermalink "/contact/" }} perfcheck-header__link--active{{ end }}" href="{{ "contact/" | relURL }}">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
