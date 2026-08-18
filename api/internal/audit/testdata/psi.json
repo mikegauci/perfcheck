@@ -1,0 +1,18 @@
+{
+  "lighthouseResult": {
+    "categories": {
+      "performance": { "score": 0.72 },
+      "seo": { "score": 0.91 },
+      "accessibility": { "score": 0.84 }
+    },
+    "audits": {
+      "total-byte-weight": { "numericValue": 420000 },
+      "unminified-javascript": { "score": 1 },
+      "uses-text-compression": { "score": 0.5 },
+      "document-title": { "score": 1 },
+      "meta-description": { "score": 1 },
+      "image-alt": { "score": 0 },
+      "html-has-lang": { "score": 1 }
+    }
+  }
+}

@@ -16,6 +16,7 @@ describe('createClient', () => {
         id: 'abc',
         url: 'https://example.com',
         createdAt: '2026-08-18T12:00:00Z',
+        engine: 'mock',
         scores: { overall: 80, performance: 70, seo: 90, accessibility: 80 },
         recommendations: [],
       }),

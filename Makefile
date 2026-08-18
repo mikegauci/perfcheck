@@ -38,7 +38,7 @@ typecheck:
 build:
 	npm ci
 	hugo --minify
-	cd api && go build -o bin/perfcheckd ./cmd/perfcheckd
+	cd api && CGO_ENABLED=0 go build -o bin/perfcheckd ./cmd/perfcheckd
 
 lint:
 	cd api && go vet ./...

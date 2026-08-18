@@ -1,19 +1,30 @@
 package audit
 
-import "testing"
+import (
+	"context"
+	"testing"
+)
 
-func TestScoreURLDeterministic(t *testing.T) {
+func TestMockScorerDeterministic(t *testing.T) {
 	t.Parallel()
 	url := "https://example.com/pricing"
-	a := ScoreURL(url)
-	b := ScoreURL(url)
-	if a != b {
-		t.Fatalf("ScoreURL not deterministic: %#v vs %#v", a, b)
+	scorer := MockScorer{}
+	a, err := scorer.Score(context.Background(), url)
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := scorer.Score(context.Background(), url)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if a.Scores != b.Scores || a.Engine != EngineMock {
+		t.Fatalf("MockScorer not deterministic: %#v vs %#v", a, b)
 	}
 }
 
-func TestScoreURLBands(t *testing.T) {
+func TestMockScorerBands(t *testing.T) {
 	t.Parallel()
+	scorer := MockScorer{}
 	urls := []string{
 		"https://example.com",
 		"https://example.org/a",
@@ -21,7 +32,11 @@ func TestScoreURLBands(t *testing.T) {
 		"https://shop.example.com/products?id=1",
 	}
 	for _, u := range urls {
-		s := ScoreURL(u)
+		res, err := scorer.Score(context.Background(), u)
+		if err != nil {
+			t.Fatal(err)
+		}
+		s := res.Scores
 		if s.Performance < 45 || s.Performance > 98 {
 			t.Fatalf("%s performance=%d out of band", u, s.Performance)
 		}
@@ -37,11 +52,12 @@ func TestScoreURLBands(t *testing.T) {
 	}
 }
 
-func TestScoreURLDiffersByURL(t *testing.T) {
+func TestMockScorerDiffersByURL(t *testing.T) {
 	t.Parallel()
-	a := ScoreURL("https://a.example.com")
-	b := ScoreURL("https://b.example.com")
-	if a == b {
+	scorer := MockScorer{}
+	a, _ := scorer.Score(context.Background(), "https://a.example.com")
+	b, _ := scorer.Score(context.Background(), "https://b.example.com")
+	if a.Scores == b.Scores {
 		t.Fatalf("expected different scores for different URLs")
 	}
 }

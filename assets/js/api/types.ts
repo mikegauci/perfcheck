@@ -17,8 +17,36 @@ export type Audit = {
   id: string;
   url: string;
   createdAt: string;
+  engine: 'mock' | 'fetch' | 'psi' | string;
   scores: Scores;
+  signals?: Signals;
   recommendations: Recommendation[];
+};
+
+export type Signals = {
+  statusCode?: number;
+  ttfbMs?: number;
+  bytes?: number;
+  contentEncoding?: string;
+  cacheControl?: string;
+  https: boolean;
+  title?: string;
+  titleLength?: number;
+  hasTitle: boolean;
+  metaDescription?: string;
+  hasMetaDescription: boolean;
+  h1Count: number;
+  hasCanonical: boolean;
+  hasOpenGraph: boolean;
+  hasJsonLd: boolean;
+  hasLang: boolean;
+  imagesMissingAlt: number;
+  hasViewport: boolean;
+  inputsWithoutLabel: number;
+  scriptCount: number;
+  stylesheetCount: number;
+  inlineStyleBytes: number;
+  psiStrategy?: string;
 };
 
 export type AuditListResponse = {
@@ -29,10 +57,11 @@ export type ApiErrorCode =
   | 'invalid_url'
   | 'invalid_json'
   | 'not_found'
-  | 'rate_limited'
+  | 'unauthorized'
   | 'internal'
   | 'network'
   | 'timeout'
+  | 'aborted'
   | 'unknown';
 
 export type ApiErrorBody = {

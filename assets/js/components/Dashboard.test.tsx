@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Dashboard } from './Dashboard';
+import { ApiError } from '../api/types';
 import type { ApiClient } from '../api/client';
 
 describe('Dashboard', () => {
@@ -20,6 +21,7 @@ describe('Dashboard', () => {
             id: '1',
             url: 'https://example.com',
             createdAt: '2026-08-18T12:00:00Z',
+            engine: 'mock',
             scores: { overall: 80, performance: 70, seo: 90, accessibility: 80 },
             recommendations: [],
           },
@@ -30,5 +32,13 @@ describe('Dashboard', () => {
     await waitFor(() => {
       expect(screen.getByText('https://example.com')).toBeInTheDocument();
     });
+  });
+
+  it('asks for a password on 401', async () => {
+    const client = {
+      listAudits: vi.fn().mockRejectedValue(new ApiError('unauthorized', 'Sign in', 401)),
+    } as unknown as ApiClient;
+    render(<Dashboard client={client} />);
+    expect(await screen.findByLabelText(/dashboard password/i)).toBeInTheDocument();
   });
 });

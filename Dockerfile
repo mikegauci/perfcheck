@@ -1,6 +1,6 @@
 # Multi-stage build: Hugo site + Go API in one image.
 # Build:  docker build -t perfcheck .
-# Run:    docker run --rm -p 8080:8080 perfcheck
+# Run:    docker run --rm -p 8080:8080 -v perfcheck-data:/data perfcheck
 
 FROM node:20-bookworm AS deps
 WORKDIR /src
@@ -15,24 +15,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certifi
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
 COPY --from=deps /src/node_modules ./node_modules
-COPY package.json package-lock.json postcss.config.js .browserslistrc hugo.toml ./
+COPY package.json package-lock.json postcss.config.cjs .browserslistrc hugo.toml ./
 COPY assets ./assets
 COPY layouts ./layouts
 COPY content ./content
 COPY static ./static
 RUN hugo --minify
 
-FROM golang:1.22-bookworm AS api
+FROM golang:1.25-bookworm AS api
 WORKDIR /src
-COPY api/go.mod ./
-RUN go mod download 2>/dev/null || true
+COPY api/go.mod api/go.sum ./
+RUN go mod download
 COPY api ./
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /perfcheckd ./cmd/perfcheckd
 
-FROM gcr.io/distroless/static-debian12:nonroot
+FROM gcr.io/distroless/static-debian12
 WORKDIR /app
 COPY --from=hugo /src/public /app/public
 COPY --from=api /perfcheckd /app/perfcheckd
-USER nonroot:nonroot
 EXPOSE 8080
-ENTRYPOINT ["/app/perfcheckd", "-addr", ":8080", "-cors-origin", "", "-static", "/app/public"]
+VOLUME ["/data"]
+ENTRYPOINT ["/app/perfcheckd", "-addr", ":8080", "-cors-origin", "", "-static", "/app/public", "-db", "/data/perfcheck.db", "-scorer", "auto"]
